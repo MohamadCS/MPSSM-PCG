@@ -3,6 +3,7 @@
   specific libraries whenever you see ROCM in the enviroment file.
 - Since I downloaded many packages one by one the final requirements.txt is
   reprodcued using `uv pip freeze > requirements.txt`
+- source the enviroment using `source .venv/bin/activate`
 - Download the env using `uv venv .venv && uv pip install --python
   .venv/bin/python -r requirements.txt`
 - Python 3.12.13.
