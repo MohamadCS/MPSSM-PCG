@@ -1,0 +1,9 @@
+/src/__pycache__
+/src/data/__pycache__
+/src/models/__pycache__
+/src/utils/__pycache__
+/src/utils/__pycache__
+/external/IGNN
+/external/ECHO
+/data
+/checkpoints
