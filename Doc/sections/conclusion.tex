@@ -1,21 +1,26 @@
 \section{Conclusion}
-Our proposed method \texttt{MPSSM-PCG} showed promising for learning
-preconditioners for graph learning dataset. Specifically it achived close
-performence to existing learned preconditionerd with less setup time. In
-addition, preconditioning $I + \alpha L$ showed great improvement over regular
-normalized adjacency matrix, such that it achives better performence while
-using lower GCN layers.
+We introduced \texttt{MPSSM-PCG}, a learned preconditioner for graph-structured
+linear systems based on MPSSM. \texttt{MPSSM-PCG} achives preconditioning
+quality comparable to an existing learned preconditioner while requireing
+substantially lower setup time. Furthermore, we showed that the learned
+operator $P_\theta \approx (I + \alpha L)^{-1}$ can be used as a long-range
+graph propagation operator. The learned operator substantially improves the
+performence of shallow GCNs enabling long-range propagation to be achieved
+using fewer layers.
 
 \subsection{Limitations}
-Main limitation comes from our limited computation budget. First, the
-multilayer long-range propgation in table \ref{tbl:echo_sssp_layers} was tested
-using one $\alpha$ value. Second, we only tested the operator $I + \alpha L$.
-Long-range operators like $e^{-tL},L ^\dagger$ might be usefull for testing
-other datasets. Third, $\texttt{MPSSM-PCG}$ was designed to work
-specifically for graph structures, and was tested on existing graphs of
-different graph learning datasets.
+Main limitation arrise from our limited computation budget. First, the
+multilayer long-range propgation in table \ref{tbl:echo_sssp_layers} here
+conducted using a single value of $\alpha$, so evalutaing the relation between
+propogation depth and $\alpha$ more extensively could provide a better image of
+the effect of the learned operator.
 
+Second, we only considered operators of the form $I + \alpha L$. Other
+long-range graph operators like $e^{-tL}, L^\dagger$ could be considered may be
+studied, as they could be more suitable for differnet graph-learning tasks.
 
-
-
+Finally $\texttt{MPSSM-PCG}$ is specifically designed around graph-structured
+spare systems and was evaluated on systems computed from graph-learning
+datasets. Its effectiveness on more general sparse SPD matrices remains to be
+investigated.
 

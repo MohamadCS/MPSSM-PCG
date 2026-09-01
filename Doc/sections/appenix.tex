@@ -12,7 +12,7 @@ Notice that $K = I + \alpha L = (1 + \alpha)I - \alpha \hat A$ and so using Neum
 
 The usage of Neumann expansion is valid since for $\alpha > 0$
 \begin{equation}
-    \rho\left(\frac{\alpha}{1 + \alpha} \hat A \right) = \frac{\alpha}{1 + \alpha} \rho\left( \hat A \right) <  \frac{\alpha}{1 + \alpha} < 1
+    \rho\left(\frac{\alpha}{1 + \alpha} \hat A \right) = \frac{\alpha}{1 + \alpha} \rho\left( \hat A \right) \leq  \frac{\alpha}{1 + \alpha} < 1
 \end{equation}
 
 A conventional GCN layer propgates using $\hat A$
@@ -25,10 +25,16 @@ This only does 1-hop propagation.
 Replacing $\hat A$ with $K^{-1}$ is equivilant to
 
 \begin{equation*}
-    H^{(l + 1)} = \sigma(K^{-1}_ H^{(l)} W^{(l)}) \approx \sigma\left(\frac{1}{1 + \alpha}\sum_{k = 0}^{\infty}\left(\frac{\alpha}{1 + \alpha}\right)^{k} \hat A^k H^{(l)} W^{(l)}\right)
+    H^{(l + 1)} = \sigma(K^{-1} H^{(l)} W^{(l)}) = \sigma\left(\frac{1}{1 + \alpha}\sum_{k = 0}^{\infty}\left(\frac{\alpha}{1 + \alpha}\right)^{k} \hat A^k H^{(l)} W^{(l)}\right)
 \end{equation*}
 
-where $\alpha$ controlls the effective propagation length.
+Define
+\begin{equation}
+    w_k = \frac{1}{1 + \alpha} \left( \frac{\alpha}{1 + \alpha}\right )^k
+\end{equation}
+
+Notice that larger $\alpha$ corresponds to slower weight decay. Therefore we can
+achive longer effictive propagation by increasing $\alpha$.
 
 \section{Additional Method Details}
 \subsection{PCG Algorithm}
@@ -116,8 +122,7 @@ where $\alpha$ controlls the effective propagation length.
         \State $H_0 \gets \texttt{GraphNorm}(\texttt{MPSSM}_0(U,S))$
 
         \For{$b = 0, \dots ,B - 1$}
-        \State $H_{b + 1} \gets \texttt{MPSSM}_b(H_b,S)$
-        \State $H_{b + 1} \gets \texttt{GraphNorm}(\texttt{Dropout}_p(H_{b}))$
+        \State $H_{b + 1} \gets \texttt{GraphNorm}(H_b + \texttt{Dropout}_p(\texttt{MPSSM}_b(H_b,S)))$
         \EndFor
 
         \State \Return $H_{B}$
@@ -234,7 +239,7 @@ where $\alpha$ controlls the effective propagation length.
         \Require{Sparse Factor $L$, Residual $r$}
 
         \State $y \gets \texttt{solve\_triangular}(L, r, \text{upper} = F)$ \Comment{Pytorch's \texttt{torch.linalg.solve\_triangular}}
-        \State $z \gets \texttt{solve\_triangular}(L, y, \text{upper} = T)$
+        \State $z \gets \texttt{solve\_triangular}(L^\top, y, \text{upper} = T)$
         \State \Return $z$
     \end{algorithmic}
 \end{algorithm}
@@ -274,7 +279,10 @@ where $\alpha$ controlls the effective propagation length.
 
 \section{Evaluation}
 \subsection{Hardware Configuration}
- We run all the tests on Ryzen 9600X CPU, 32GB of RAM and an AMD Radeon 9070 XT GPU with 16 GB of VRAM.
+We run all the tests on Ryzen 9600X CPU, 32GB of RAM and an AMD Radeon 9070 XT GPU with 16 GB of VRAM.
+
+\subsection{Software and Libraries}
+Specific libraries are provided using `requirements.txt`.
 
 \subsection{Expirements Hyperparameters}
 \begin{table}[H]
@@ -324,18 +332,18 @@ where $\alpha$ controlls the effective propagation length.
 
 This configuration is the closest configuation to what the authors of NeuralIF
 \cite{hausnerNeuralIncompleteFactorization2024} chose. We just used 4 message
-passing steps instead of 4 to have a close parameter count to ours.
+passing steps instead of 3 to have a close parameter count to ours.
 
 \begin{table}[H]
     \centering
-    \caption{GCN hyperparameters for ECHO-SSSP long-range propagation expirements}
+    \caption{Hyperparameters used in MPSSM-PCG ECHO-SSSP expirement}
     \small
     \begin{tabular}{c c}
         Hyperparameter       & Value                \\
         \hline
         Optimizer            & Adam                 \\
-        Learning Rate        & $10^{-5}$            \\
-        Train Epochs         & 50                   \\
+        Learning Rate        & $10^{-4}$            \\
+        Train Epochs         & 30                   \\
         Checkpoint Selection & Best Validation loss \\
         Hidden Dimesntion    & 16                   \\
         Blocks               & 2                    \\
@@ -345,30 +353,9 @@ passing steps instead of 4 to have a close parameter count to ours.
     \end{tabular}
 \end{table}
 
-We used identical hyperparameters to \ref{tbl:hyperparams_mpssmpcg} in our
-long-range propagation evalutaion apart from a learning rate of $10^{-4}$ and
-we trained for 30 epochs instead of 50.
-
-% global_features=0,
-% latent_size=8,
-%
-% augment_nodes=True,
-%
-% message_passing_steps=4,
-%
-% skip_connections=True,
-% activation="relu",
-% aggregate=None,
-% decode_nodes=False,
-%
-% normalize_diag=False,
-% graph_norm=True,
-% two_hop=False,
-% edge_features=1,
-
 \begin{table}[H]
     \centering
-    \caption{Hyperparameters used in MPSSM-PCG ECHO-SSSP expirement}
+    \caption{GCN hyperparameters for ECHO-SSSP long-range propagation expirements}
     \small
     \begin{tabular}{c c}
         Hyperparameter       & Value                \\
@@ -455,6 +442,7 @@ and the relative solution error
         evaluated on their PCG performence on unseen test system. Results are
         averaged over three seeds $\{0,1,2\}$.
     }
+    \small
     \label{tbl:echo_sssp_preconditioning_err}
     \begin{tabular}{c c c}
         Method           & Rel. Error  $\downarrow$                  & Rel. Reisdual  $\downarrow$               \\
@@ -471,12 +459,13 @@ and the relative solution error
         Preconditioning performence on peptides-struct graph systems $K = I +
             8L$, with 2000/500/500 split. Mehods are evaluated on their PCG
         performence on unseen test system. Results are averaged over three
-        seeds $\{0,1,2\}$.
+        seeds $\{0,1,2\}$. Timing are presented in ms.
     }
     \centering
+    \small
     \label{tbl:peptides_struct_preconditioning_time}
     \begin{tabular}{c c c c c c}
-        Method   & Conv. \%   $\uparrow$ & PCG Iteration $\downarrow$ & Setup Time  $\downarrow$ & Solve Time $\downarrow$ & Total Time   $\downarrow$ \\
+        Method   & Conv. \%   $\uparrow$ & PCG Iteration $\downarrow$ & Setup Time (ms) $\downarrow$ & Solve Time (ms)$\downarrow$ & Total Time (ms)  $\downarrow$ \\
         \hline
         Identity & $100.0\pm0.0$         & $21.90\pm0.00$             & $0.001\pm0.000 $         & $2.244\pm0.002 $        & $2.245\pm0.002$           \\
         Jacobi   & $100.0\pm0.0$         & $21.64\pm0.01$             & $0.009\pm0.002 $         & $2.266\pm0.004 $        & $2.275\pm0.006$           \\
@@ -486,12 +475,15 @@ and the relative solution error
 \end{table}
 
 \begin{table}[H]
-    \centering
     \caption{
         Preconditioning performence on peptides-struct graph systems with
         2000/500/500 split. Mehods are evaluated on their PCG performence on
         unseen test system. Results are averaged over three seeds $\{0,1,2\}$.
+
     }
+
+    \centering
+    \small
     \label{tbl:peptides_struct_preconditioning_err}
     \begin{tabular}{c c c}
         Method   & Rel. Error  $\downarrow$                  & Rel. Reisdual  $\downarrow$               \\

@@ -72,6 +72,7 @@ We predict the diagonal independly. To guarantee the the diagonal is postive, we
     (L_\theta)_{ii} = \exp{(c\cdot \texttt{MLP}_{\mathrm{diag}}(H_i))}
 \end{equation}
 
+
 where $c$ is a constant\footnote{We found that having an indepenent decoder for the
     diagonal is more numerically stable}.
 
@@ -106,52 +107,3 @@ opertor as $P_\theta = M^{-1}_\theta$ and plug it into a conventional GCN layer
 \end{equation*}
 
 Refer to appendix (\ref{alg:gcn}) for GCN architicture details
-
-
-% Our model predicts the incomplete Cholesky Factorization with sparisty pattern of IC(0) for a given operator
-% $A$ with the sparisty pattern $IC(0)$ similar to
-% \cite{hausnerNeuralIncompleteFactorization2024}. Given an system matrix $K$,
-% our model predicts $L_\theta(K)L_\theta(K)^\top \approx K$.
-%
-% \paragraph{MPSSM} \cite{ceniMessagePassingStateSpaceModels2025} we use MPSSM as
-% our backbone for predicting the matrix $L_\theta(K)$. MPSSM is based on the recurrance
-% \begin{equation}
-%     H_{t + 1} = SH_tW + U_{t}B
-% \end{equation}
-%
-% In our case we use a fixed $U_t = U$ that injects the matrix dervied feature, like the
-% $K$'s matrix diagonal.
-%
-% Each MPSSM block is of $s = 8$ steps, followed by an MLP layer and a residual
-% connection, we have a total of $b = 2$ blocks.
-%
-% \paragraph{Learning $L_\theta(K)$} Firstly we pass contruct the shift operator
-% $S = D^{-1/2} A_S D^{-1/2}$ when $A_S$ is the sparsity pattern of $K$,
-% and extract the matrix features $U\in \mathbb{R}^{n \times \mathrm{mat\_features}}$ (see appendix for the exact features),
-% and the MPSSM backbone on the input matrix $H_{t+1} = \texttt{GraphNorm}(H_{t} + \texttt{MPSSM}(H_t,S,U))$,  
-% when $H_1 = \texttt{MPSSM}(0,S,U)$.
-%
-%
-% Now for each $i > j$ such that $K_{ij} \neq 0$ we construct $e_{ij} =
-% \texttt{concat}(H_i,H_j,K_{ij} / s)$ when  $s = \frac{1}{n} \sum_i |K_{ii}|$,
-% and pass it to an MLP that predicts the corresponding entry $L_{ij} = z_{ij} =
-% \texttt{MLP}(e_{ij})$.
-%
-% % Now for each $i > j$ such that $K_{ij} \neq 0$ we construct $e_{ij} =
-% % \texttt{concat}(H_i,H_j,K_{ij} / s)$ when  $s = \frac{1}{n} \sum_i |K_{ii}|$,
-% % and pass it to an MLP that predicts the corresponding entry $z_{ij} =
-% % \texttt{MLP}(e_{ij})$, now we normalize the entry and scale it back $L_{ij} =
-% % \sqrt{s}\ \texttt{tanh}(z_{ij})$.
-%
-% Now in order to gaurantee that the final matrix is invertable, we ensure that
-% the diagonal is positive. so we apply the following transformation (similar in
-% concept to \cite{hausnerNeuralIncompleteFactorization2024}):
-%
-% \begin{equation}
-%     L_{ii} =  e^{cD_{\theta,i}}
-% \end{equation}
-%
-% When $D_\theta = \texttt{MLP}(H)$ is the digonal encoder and $c$ is a small constant.
-%
-%
-%

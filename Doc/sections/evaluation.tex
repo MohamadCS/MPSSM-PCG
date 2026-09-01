@@ -13,19 +13,18 @@ For a graph $\mathcal G$ we construct the system $K = I + \alpha L$, where $L =
     I - D^{-1/2}AD^{-1/2}$ is the normalized laplacian, and $\alpha > 0$ controls
 the effective propagation range.
 
-
 \paragraph{Preconditioning Training}
-Both \texttt{MPSSM-PCG} and \texttt{NeuralIF} have the same training protocol.
-We train the models using the objective in Eq.\ref{eq:training_loss} with 10
-Gaussian probes per matrix, we also evaluate both on the test split using the
-best validation checkpoint. At test time, we solve each unseen system five
-times using indepenedly generated RHS. we terminate PCG (\ref{alg:pcg}) when
-$\lVert r_k\rVert_2 / \lVert b\rVert_2  < \texttt{tol} = 10^{-6}$ or after 1000
+Both \texttt{MPSSM-PCG} and \texttt{NeuralIF} are trained under the same
+protocol. We train the models using the objective in Eq.\ref{eq:training_loss}
+with 10 Gaussian probes per matrix and evaluate the best validation checkpoint
+on the test split. At test time, each unseen system five is solved 5 times
+using indepenedly generated RHS. We terminate PCG (\ref{alg:pcg}) when $\lVert
+    r_k\rVert_2 / \lVert b\rVert_2  < \texttt{tol} = 10^{-6}$ or after 1000
 iterations. Refer to the appendix for per expirement hyperparameters.
 
 \paragraph{Long-range Propagation}
 
-After training \texttt{MPSSM-PCG} on the dataset. We freeze the model. And
+After training \texttt{MPSSM-PCG} on the dataset. We freeze the model the \texttt{MPSSM-PCG} parameters. And
 train two identical conventional GCN models, that only differ in the
 propagation matrix. One time we train with $\hat A$, and the other with
 $P_\theta$. For ECHO-SSSP, both models are trained using MSE (Eq.\ref{eq:mse})
@@ -45,12 +44,12 @@ constructing $M^{-1}_\theta$, we apply the preconditioner in two steps
 $L_\theta y = r$ then  $L_\theta^\top z = y$. Complete residual and
 solution-error statisctics are provided in the appendix.
 
-
 \begin{table}[H]
     \caption{
-        Preconditioning performence on ECHO-SSSP graph systems using the operator $K = I + 8L$. Mehods are
-        evaluated on their PCG performence on unseen test system. Results are
-        averaged over three seeds $\{0,1,2\}$.
+        Preconditioning performence on ECHO-SSSP graph systems using the
+        operator $K = I + 8L$. Mehods are evaluated on their PCG performence on
+        unseen test system. Results are averaged over three seeds $\{0,1,2\}$.
+        Time units are in ms.
     }
     \centering
     \small
@@ -58,19 +57,21 @@ solution-error statisctics are provided in the appendix.
     \begin{tabular}{c c c c c c}
         Method    & Conv. \%   $\uparrow$ & PCG Iteration $\downarrow$ & Setup Time \ref{par:setup_time} $\downarrow$ & Solve Time $\downarrow$ \ref{par:solve_time} & Total Time \ref{par:total_time}  $\downarrow$ \\
         \hline
-        Identity  & $100\% \pm 0.0$       & $21.86\pm 0.00$            & $\mathbf{0.001}\pm0.000$                       & $2.225\pm0.011$                              & $2.225\pm0.011$                               \\
-        Jacobi    & $100\% \pm 0.0$       & $21.50\pm 0.00$            & $0.008\pm0.001$                                & $2.240\pm0.010$                              & $2.249\pm0.010$                               \\
-        NeuralIF  & $100\% \pm 0.0$       & $\mathbf{8.73} \pm 0.02$   & $0.722\pm0.001$                                & $\mathbf{1.587}\pm0.007$                     & $2.309\pm0.005$                               \\
-        MPSSM-PCG & $100\% \pm 0.0$       & $8.93 \pm 0.03$            & $0.274\pm0.007$                                & $1.636\pm0.004$                              & $\mathbf{1.910}\pm0.004$                      \\
+        Identity  & $100\% \pm 0.0$       & $21.86\pm 0.00$            & $\mathbf{0.001}\pm0.000$                     & $2.225\pm0.011$                              & $2.225\pm0.011$                               \\
+        Jacobi    & $100\% \pm 0.0$       & $21.50\pm 0.00$            & $0.008\pm0.001$                              & $2.240\pm0.010$                              & $2.249\pm0.010$                               \\
+        NeuralIF  & $100\% \pm 0.0$       & $\mathbf{8.73} \pm 0.02$   & $0.722\pm0.001$                              & $\mathbf{1.587}\pm0.007$                     & $2.309\pm0.005$                               \\
+        MPSSM-PCG & $100\% \pm 0.0$       & $8.93 \pm 0.03$            & $0.274\pm0.007$                              & $1.636\pm0.004$                              & $\mathbf{1.910}\pm0.004$                      \\
     \end{tabular}
 \end{table}
 
-The results show that both \texttt{NeuralIF} and \texttt{MPSSM-PCG} outperform
-classical precondtioners in PCG iteration count, while \texttt{NeuralIF}
-showing a slight advanatge over our model in that metric. However our setup
-time is 2.6 times less that \texttt{NeuralIF}'s setup time, resulting in
-about $17\%$ reduction in the total solve time. We see very similar results using
-Peptides graphs \cite{dwivediLongRangeGraph2023} (See table \ref{tbl:peptides_struct_preconditioning_time} in appendix).
+The results show that both \texttt{NeuralIF} and \texttt{MPSSM-PCG}
+substantially reduce the number of PCG iterations compared with classical
+precondtioners in PCG iteration count. \texttt{NeuralIF} acheives slighty lower
+iteration count than \texttt{MPSSM-PCG} . However \texttt{MPSSM-PCG} has approximately
+$62\%$ lower setup time than \texttt{NeuralIF}, resulting in
+approximatly $17\%$ reduction in the total time. We see very similar results
+using Peptides graphs \cite{dwivediLongRangeGraph2023} (See table
+\ref{tbl:peptides_struct_preconditioning_time} in appendix).
 
 \subsection{Long-Range Propagation Performence}
 
@@ -82,7 +83,7 @@ propagation operator in a shallow graph neural network.
     \caption{
         Effect of the propgation parameter $\alpha$ on ECHO-SSSP. The table
         shows the test MAE for and PGCN per $\alpha$ value. PGCN uses 1 layer
-        for propgation. 
+        for propgation.
     }
 
     \label{tbl:echo_sssp_alphas}
@@ -97,14 +98,12 @@ propagation operator in a shallow graph neural network.
 \end{table}
 
 In table (\ref{tbl:echo_sssp_alphas}) we perform simple abiliation to evalute
-the effect of the propagation parameter $\alpha$. As established by, increasing
-$\alpha$ increases the effective propgation range of $(I + \alpha L)^{-1}$. So
-evaluating on a long-range dataset like ECHO-SSSP \cite{migliorCanYouHear2026} should show better
-performence as $\alpha$ increases. Indeed we see that as $\alpha$ increases,
-the test MAE decreases. The improvements become smaller between $\alpha = 4$
-and $\alpha = 8$ which suggests, that after a certain point we get diminishing
-returns.
-
+the effect of the propagation parameter $\alpha$. As established by \ref{sec:operator_interpretation}, increasing
+$\alpha$ increases the effective propgation range of $(I + \alpha L)^{-1}$. Therefore we expect that larger values of $\alpha$ to
+be benificial on long-range benchmarks like ECHO-SSSP
+\cite{migliorCanYouHear2026}. The results shown in \ref{tbl:echo_sssp_alphas}
+is consistent with this interpretation, as the test MAE decreases as $\alpha$
+increases. We can also notice diminishing returns past $\alpha = 4$.
 
 \begin{table}[H]
     \caption{
@@ -124,13 +123,8 @@ returns.
     \end{tabular}
 \end{table}
 
-The second expirement aimed to test the effect of replacing $\hat A$ with
-$P_\theta$. we can see from table \ref{tbl:echo_sssp_layers} that the results
-are consistent: PGCN outperforms GCN with less layers. We notice that 4 layer
-GCN lacks behind 1 layer of PGCN. However the gap shrinks as we add more
-layers. This is partly becuase GCN applies an activiation function, and uses a
-unique weight matrix for each layer. 
-
-
-
-
+In the second expirement we evaluate the effect of replacing the local
+propagation operator $\hat A$ with the learned operator $P_\theta$. As shown in
+\ref{tbl:echo_sssp_layers}, PGCN achives substantially better performence with
+less layers. A one layer of PGCN achives an MAE of 0.107 while outperforming
+four layers of local GCN that achived MAE of 0.111.

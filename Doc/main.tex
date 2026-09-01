@@ -35,15 +35,24 @@
 \author{ Mohamad Essa\\
   M.Sc. Computer Science Student\\
   BGU University\\
-  \texttt{esamo@post.bgu.ac.il}\\ 
+  % \texttt{esamo@post.bgu.ac.il}\\ 
 }
 
 \begin{document}
 
 \maketitle
 \begin{abstract}
+    We propose \texttt{MPSSM-PCG}, a learned preconditioner for
+    graph-structured linear systems based on MPSSM
+    \cite{ceniMessagePassingStateSpaceModels2025}. We evaluate the method as a
+    preconditioner for PCG and as a learned long-range propagation operator for
+    shallow GCNs. On graph-derived systems, \texttt{MPSSM-PCG} achives
+    convergence results comparable to
+    \texttt{NeuralIF}\cite{hausnerNeuralIncompleteFactorization2024} while
+    requiring substantially lower setup time. In addition, we show that the
+    learned operator improves long-range propgation on ECHO-SSSP, allowing
+    shallow GCNs to match or outperform deeper local GCNs.
 \end{abstract}
-
 
 \input{sections/intro.tex}
 \input{sections/related_work.tex}

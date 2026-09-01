@@ -66,19 +66,18 @@ use simple encodig, propagation using MPNN and decoding back.
 % \cite{sapplConvolutionalNeuralNetworkdriven2026} used a CNN architcture in
 % order to learn a lower triagonal matrix $L$ for a preconditioner $P = LL^T$.
 %
-% Algebric multigrids (AMG) are also used for learning preconditioners. AMG
-% contructs a hierarchy of coarse represnentations directly from the given
-% matrix. \cite{luzLearningAlgebraicMultigrid2020} uses GNN based architcture to
-% learn the prolongation weights between the coarse and fine levels.
-% \cite{liNeuralPreconditioningOperator2025} combined algebric multigrid
-% principles with a transformer based architicture to learn a multi-scale
-% preconditioning operator.
-%
-% \cite{brardaFactoredSparseApproximate2026} learns a fixed pattern sparse
-% approximation inverse  $M = GG^\top$. The differnece with from other methods is
-% that they minimize spectral objectives of $M$ rather than Frobenius norm.
-%
-%
+Algebric multigrids (AMG) are also used for learning preconditioners. AMG
+contructs a hierarchy of coarse represnentations directly from the given
+matrix. \cite{luzLearningAlgebraicMultigrid2020} uses GNN based architcture to
+learn the prolongation weights between the coarse and fine levels.
+\cite{liNeuralPreconditioningOperator2025} combined algebric multigrid
+principles with a transformer based architicture to learn a multi-scale
+preconditioning operator.
+
+\cite{brardaFactoredSparseApproximate2026} learns a fixed pattern sparse
+approximation inverse  $M = GG^\top$. The differnece with from other methods is
+that they minimize spectral objectives of $M$ rather than Frobenius norm.
+
 % Generative methods where used by \cite{liGenerativeModelingSparse2024}. Given
 % an SPD matrix $A$, they encode it using a GAT based encoder, while also passing
 % the exact inverse $A^{-1}$ into a CNN encoder. The outputs are then

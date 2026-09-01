@@ -5,31 +5,31 @@ they mix node representations according to the graph structure, which makes
 them vaiable for graph based application.
 
 In particual, message-passing neural networks (MPNN)
-\cite{gilmerNeuralMessagePassing2017} have recived massive attention in the
-last decade. MPNN layer updates the signals of a node by aggregating
-information from its neighbors followed by nodes signal update (for example
-using MLP).
+\cite{gilmerNeuralMessagePassing2017} have recived substantial attention over the
+last decade. MPNN layer updates node representations by aggregating
+information from neighbor nodes followed by a feature update (such as MLP).
 
-While MPNN are usefull for propagating local graph information, global
-information propagation remains a challenge to solve. In order for local MPNN to
-propagate information between $k$-distant nodes, they need at least $k$ layers
-of MPNN. However, repeated propagation arrises two main challenges in GNN:
+While MPNN are effective for propagating local graph information, global
+information propagation remains challening. For information to travel between
+nodes that are $k$-hops apart, a local MPNN generally requires at least $k$ propagation layers.
+However, repeated propagation arrises two main challenges in GNN:
 oversmoothing and oversquashing
 \cite{arnaiz-rodriguezOversmoothingOversquashingHeterophily2026} .
 
 \paragraph{Oversmoothing
-\cite{arnaiz-rodriguezOversmoothingOversquashingHeterophily2026}} happens when
+    \cite{arnaiz-rodriguezOversmoothingOversquashingHeterophily2026}} happens when
 a GNN based network stacks many MPNN layers, in which repeated averaging
 smooths node embeddings, and as a result they become very similar.
 
-\paragraph{Oversquashing \cite{arnaiz-rodriguezOversmoothingOversquashingHeterophily2026}} When we repeatadly apply MPNN layers to node signals,
-an exponential amount of information needs to pass through a fixed size
-embedding vector.
+\paragraph{Oversquashing
+    \cite{arnaiz-rodriguezOversmoothingOversquashingHeterophily2026}} When we
+repeatadly apply MPNN layers to node signals, an exponential amount of
+information needs to pass through a fixed size embedding vector.
 
 Our goal is to design a shallow MPNN that uses a global propagation matrix for
 implict long-range propagation, which allows us to achive long-range propgation
 with fewer MPNN layers. To do that, we use a global propgation matrix like $(I
-+ \alpha L)^{-1}$ (see appendix) to replace the local propgation matrix (often
+    + \alpha L)^{-1}$ (see appendix) to replace the local propgation matrix (often
 normalized adjacency matrix).
 
 %% MOVE TO APPENDEX
@@ -70,30 +70,30 @@ precondition the global operator  $I + \alpha L$.
 \subsection{Problem Setup}
 
 \paragraph{Preconditioning}
-Given a matrix $A$ (often SPD matrix), a preconditioner is a matrix $P \approx
-A^{-1}$ that is efficent to apply. We usually require $PA$ to be well
-conditioned, meaning that the condition number $\kappa(PA) =
-\lambda_{\mathrm{max}}(PA) /  \lambda_{\mathrm{min}}(PA) \ll \kappa(A)$.
-Instead of directly optimizing the condition number, we aim learn an easily
-invertable matrix $M\approx A$ where $M = LL^\top$ of the IC(0) pattern, more
-on that in the method.
+Given an SPD linear system $Kx = b$, a preconditioner is a matrix $P \approx
+    K^{-1}$ that is efficent to apply. Ideally we require the preconditioned system
+to satisfy $\kappa(PK) \ll \kappa(K)$, where $\kappa$ denotes the condition
+number. In SPD settings, this corresponds to better clustering of the
+eigenvalues of the preconditioned system, which accelerates the convergence of
+iterative solvers like PCG.
 
+In our settings, instead of learning $P$
+directly we learn an easily invertable approximation $M_\theta(K) \approx K$
+and define $P_\theta(K) = M_\theta(K)^{-1}\approx K^{-1}$.
 
-
-
-    In
-our method we instead find an easily invertable matrix $M \approx A$ by learned the Cholesky incomplete facotrization $M = LL^\top$. 
+We use the parametrization $M_\theta = L_\theta L_\theta^\top$ where $L_\theta$
+follows the IC(0) sparsity pattern.
 
 \paragraph{Shallow Long-Range MPNN} Given a graph $\mathcal G = (\mathcal
-V,\mathcal E)$, denote its adjacency matrix by $A$, where $A_{ij} = A_{ji} =
-\mathbb{I}[(i,j)\in \mathcal E]$, and its normalzied laplacian matrix by $L = I
-- D^{-1/2}AD^{-1/2}$. Considering the operator $K = I + \alpha L$ , our goal is
-to learn an efficent operator to invert $M_\theta(S) \approx S$ so that using
-shallow MPNN layer \ref{eq:precond_gcn} with $P_\theta(S) = M_\theta^{-1}(S)$
+    V,\mathcal E)$, denote its adjacency matrix by $A$, where $A_{ij} = A_{ji} =
+    \mathbb{I}[(i,j)\in \mathcal E]$, and its normalzied laplacian matrix by $L = I
+    - D^{-1/2}AD^{-1/2}$. Considering the operator $K = I + \alpha L$ , our goal is
+to learn an efficent operator to invert $M_\theta(K) \approx K$ so that using
+shallow MPNN layer \ref{eq:precond_gcn} with $P_\theta(K) = M_\theta^{-1}(K)$
 as its shift operator
 
 \begin{equation}\label{eq:precond_gcn}
-    Y = \sigma(P_\theta(S)XW)
+    Y = \sigma(P_\theta(K)XW)
 \end{equation}
 
 approximates long-range propagation. Here $W$ is a learnable feature mixing
