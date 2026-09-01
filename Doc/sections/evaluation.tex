@@ -117,9 +117,9 @@ increases. We can also notice diminishing returns past $\alpha = 4$.
         Layers & Local GCN MAE $\downarrow$ & PGCN MAE    $\downarrow$ \\
         \hline
         1      & $0.1421 \pm 0.000030$      & $0.1070 \pm 0.000488$    \\
-        2      & -                          & $0.0846\pm 0.000891$     \\
+        2      & $0.1321 \pm 0.000091$      & $0.0846\pm 0.000891$     \\
         4      & $0.1112\pm 0.000242$       & $0.0791\pm 0.001215$     \\
-        8      & $0.0748\pm 0.000437$       & -                        \\
+        8      & $0.0748\pm 0.000437$       & $0.0684 \pm 0.001254$    \\
     \end{tabular}
 \end{table}
 
@@ -127,4 +127,6 @@ In the second expirement we evaluate the effect of replacing the local
 propagation operator $\hat A$ with the learned operator $P_\theta$. As shown in
 \ref{tbl:echo_sssp_layers}, PGCN achives substantially better performence with
 less layers. A one layer of PGCN achives an MAE of 0.107 while outperforming
-four layers of local GCN that achived MAE of 0.111.
+four layers of local GCN that achived MAE of 0.111. As depth increases the
+local GCN substantially improves and closes the gap, however PGCN still
+outperforms it at every depth.

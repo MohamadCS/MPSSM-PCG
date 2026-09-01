@@ -39,7 +39,7 @@ achive longer effictive propagation by increasing $\alpha$.
 \section{Additional Method Details}
 \subsection{PCG Algorithm}
 \begin{algorithm}[H]
-    \capation{Preconditioned Conjugate Gradient}
+    \caption{Preconditioned Conjugate Gradient}
     \label{alg:pcg}
     \begin{algorithmic}[1]
         \Require{SPD Matrix $A$, RHS $b$, preconditioner $P$, initial guess $x_0$, tolerance $\epsilon$, maximum iterations $K$}
@@ -89,7 +89,7 @@ achive longer effictive propagation by increasing $\alpha$.
 %     return self.mlp(X)
 
 \begin{algorithm}[H]
-    \capation{MPSSM Block}
+    \caption{MPSSM Block}
     \label{alg:mpssm_block}
     \begin{algorithmic}[1]
         \Require{Propgation matrix $S$, Matrix Features $U$, SSM steps $T$}
@@ -115,7 +115,7 @@ achive longer effictive propagation by increasing $\alpha$.
 % return H
 
 \begin{algorithm}[H]
-    \capation{MPSSM}
+    \caption{MPSSM}
     \label{alg:mpssm}
     \begin{algorithmic}[1]
         \Require{Propgation matrix $S$, Matrix Features $U$, SSM steps $T$, SSM Blocks $B$, Dropout $p$}
@@ -165,7 +165,7 @@ achive longer effictive propagation by increasing $\alpha$.
 % L = L + torch.diag(L_diag)
 
 \begin{algorithm}[H]
-    \capation{MPSSM-PCG}
+    \caption{MPSSM-PCG}
     \label{alg:mpssm_pcg}
     \begin{algorithmic}[1]
         \Require{System $K$}
@@ -233,7 +233,7 @@ achive longer effictive propagation by increasing $\alpha$.
 %     return y
 
 \begin{algorithm}[H]
-    \capation{Apply MPSSM-PCG Preconditioner}
+    \caption{Apply MPSSM-PCG Preconditioner}
     \label{alg:mpssm_pcg_preconditioner}
     \begin{algorithmic}[1]
         \Require{Sparse Factor $L$, Residual $r$}
@@ -246,11 +246,11 @@ achive longer effictive propagation by increasing $\alpha$.
 
 \subsection{GCN Architicture}
 \begin{algorithm}[H]
-    \capation{GCN For ECHO-SSSP}
+    \caption{GCN For ECHO-SSSP}
     \label{alg:gcn}
     \begin{algorithmic}[1]
         \Require{Normalized adjecacny $\hat A$, Node Embeddings $X$, Layers $L$, Dropout $p$}
-        $H_0 \gets \texttt{MLP}_{\text{encoder}}(X)$
+        \State $H_0 \gets \texttt{MLP}_{\text{encoder}}(X)$
         \For{$i = 0,\dots,L - 1$}
         \State $R_t\gets H_t$
         \State $H_t \gets \texttt{ReLU}(\texttt{LayerNorm}(\hat AH_tW_t))$
@@ -262,11 +262,11 @@ achive longer effictive propagation by increasing $\alpha$.
 \end{algorithm}
 
 \begin{algorithm}[H]
-    \capation{PGCN For ECHO-SSSP}
+    \caption{PGCN For ECHO-SSSP}
     \label{alg:pgcn}
     \begin{algorithmic}[1]
         \Require{Sparse Factor $L_\theta$, Node Embeddings $X$, Layers $L$, Dropout $p$}
-        $H_0 \gets \texttt{MLP}_{\text{encoder}}(X)$
+        \State $H_0 \gets \texttt{MLP}_{\text{encoder}}(X)$
         \For{$i = 0,\dots,L - 1$}
         \State $R_t\gets H_t$
         \State $H_t \gets \texttt{ReLU}(\texttt{LayerNorm}(\texttt{apply}(L_\theta,H_t)W_t))$ \Comment{When \texttt{apply} as in alg.\ref{alg:mpssm_pcg_preconditioner}}
