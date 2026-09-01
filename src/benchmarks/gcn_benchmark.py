@@ -25,7 +25,7 @@ PEPTIDES_FUNC = "Peptides-func"
 ECHO_SSSP = "ECHO-SSSP"
 ECHO_CHARGE = "ECHO-Charge"
 
-SAVE_RESULTS = False
+SAVE_RESULTS = True
 
 
 
@@ -699,32 +699,10 @@ def print_saved_gcn_results(path, show_seeds=False):
     print("=" * 110)
 
 
-
-    # parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
-    # parser.add_argument("--alpha", type = float, default = 1.0)
-    #
-    # parser.add_argument("--pre-hidden-dim", type = int, default = 32)
-    # parser.add_argument("--pre-epochs", type = int, default = 20)
-    # parser.add_argument("--pre-layers", type = int, default = 5)
-    # parser.add_argument("--pre-lr", type = float, default = 1e-4)
-    #
-    # parser.add_argument("--hidden-dim", type = int, default = 384)
-    # parser.add_argument("--gcn-num-layers", type = int, default = 4)
-    # parser.add_argument("--pgcn-num-layers", type = int, default = 1)
-    # parser.add_argument("--epochs", type = int, default = 100)
-    #
-    # parser.add_argument("--batch-size", type = int, default = 16)
-    #
-    # parser.add_argument("--seeds", type = int, nargs = "+", default = [0,1,2])
-    # parser.add_argument("--lr", type = float, default = 1e-5)
-    # parser.add_argument("--max-train-graphs", type = int, default = 5000)
-    # parser.add_argument("--max-val-graphs", type = int, default = 2000)
-    # parser.add_argument("--max-test-graphs", type = int, default = 2000)
-    # parser.add_argument("--dataset", default = PEPTIDES_STRUCT)
-
 def run_paper_benchmark(task, args):
     args.pre_epochs = 30
     args.pre_lr = 1e-4
+    args.lr = 1e-5
     args.hidden_dim = 384
     args.epochs = 300
     args.batch_size = 32
@@ -745,50 +723,50 @@ def run_paper_benchmark(task, args):
 
 
     # ## GCN 1 vs PGCN 1, alpha diff
-    # args.gcn_num_layers=1
-    # args.pgcn_num_layers=1
-    #
-    # for alpha in [1.0, 2.0, 4.0, 8.0]:
-    #     train,val,test = load_dataset(name = task)
-    #     args.alpha = alpha
-    #     results = benchmark_dataset(
-    #             task = task,
-    #             args = args,
-    #             train_dataset=train,
-    #             val_dataset=val,
-    #             test_dataset=test
-    #     )
-    #
-    #     save_result(results)
-    #
-    #
-    # # # GCN 4 vs PGCN 2, alpha 8
-    # train,val,test = load_dataset(name = task)
-    # args.alpha = 8.0
-    # args.gcn_num_layers=4
-    # args.pgcn_num_layers=2
-    # results = benchmark_dataset(
-    #         task = task,
-    #         args = args,
-    #         train_dataset=train,
-    #         val_dataset=val,
-    #         test_dataset=test
-    # )
-    # save_result(results)
-    #
-    # ## GCN 4 vs PGCN 4, alpha 8
-    # train,val,test = load_dataset(name = task)
-    # args.alpha = 8.0
-    # args.gcn_num_layers=8
-    # args.pgcn_num_layers=4
-    # results = benchmark_dataset(
-    #         task = task,
-    #         args = args,
-    #         train_dataset=train,
-    #         val_dataset=val,
-    #         test_dataset=test
-    # )
-    # save_result(results)
+    args.gcn_num_layers=1
+    args.pgcn_num_layers=1
+
+    for alpha in [1.0, 2.0, 4.0, 8.0]:
+        train,val,test = load_dataset(name = task)
+        args.alpha = alpha
+        results = benchmark_dataset(
+                task = task,
+                args = args,
+                train_dataset=train,
+                val_dataset=val,
+                test_dataset=test
+        )
+
+        save_result(results)
+
+
+    #  GCN 4 vs PGCN 2, alpha 8
+    train,val,test = load_dataset(name = task)
+    args.alpha = 8.0
+    args.gcn_num_layers=4
+    args.pgcn_num_layers=2
+    results = benchmark_dataset(
+            task = task,
+            args = args,
+            train_dataset=train,
+            val_dataset=val,
+            test_dataset=test
+    )
+    save_result(results)
+
+    #  GCN 8 vs PGCN 4, alpha 8
+    train,val,test = load_dataset(name = task)
+    args.alpha = 8.0
+    args.gcn_num_layers=8
+    args.pgcn_num_layers=4
+    results = benchmark_dataset(
+            task = task,
+            args = args,
+            train_dataset=train,
+            val_dataset=val,
+            test_dataset=test
+    )
+    save_result(results)
 
 
     # GCN 2 vs PGCN 8, alpha 8
@@ -852,14 +830,12 @@ def main():
             test_dataset=test
     )
 
-    # print_saved_gcn_results("results/20260830_000300_downstream.jsonl")
-
-
 
 
 
 if __name__ == "__main__":
     main()
+
 
 
 

@@ -8,11 +8,10 @@
 \usepackage{amsmath} 
 
 % to avoid loading the natbib package, add option nonatbib:
-\usepackage[nonatbib]{neurips_2025}
+% \usepackage[nonatbib]{neurips_2025}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
-\usepackage{natbib}
 \usepackage{hyperref}       % hyperlinks
 \usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
@@ -48,7 +47,7 @@
     preconditioner for PCG and as a learned long-range propagation operator for
     shallow GCNs. On graph-derived systems, \texttt{MPSSM-PCG} achives
     convergence results comparable to
-    \texttt{NeuralIF}\cite{hausnerNeuralIncompleteFactorization2024} while
+     \texttt{NeuralIF}\cite{hausnerNeuralIncompleteFactorization2024} while
     requiring substantially lower setup time. In addition, we show that the
     learned operator improves long-range propgation on ECHO-SSSP, allowing
     shallow GCNs to match or outperform deeper local GCNs.
@@ -60,7 +59,7 @@
 \input{sections/evaluation.tex}
 \input{sections/conclusion.tex}
 
-\bibliographystyle{plainurl}
+\bibliographystyle{plainnat}
 \bibliography{references.bib}
 
 \input{sections/appenix.tex}

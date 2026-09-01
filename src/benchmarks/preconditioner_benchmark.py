@@ -859,8 +859,9 @@ def run_paper_benchmark(args):
     args.max_iter = 1000
     args.tol = 1e-6
 
-    task = ECHO_SSSP
 
+
+    task = ECHO_SSSP
     train,val,test = load_dataset(name = task)
     run_full_benchmark(
         name = task,
@@ -875,17 +876,13 @@ def run_paper_benchmark(args):
         tol = args.tol,
         max_iter = args.max_iter,
         num_rhs = args.num_rhs,
-        max_train_graphs = args.max_train,
-        max_val_graphs = args.max_val,
-        max_test_graphs = args.max_test,
+        max_train_graphs = None,
+        max_val_graphs = None,
+        max_test_graphs = None,
     )
 
 
     task = PEPTIDES_STRUCT
-    args.max_train_graphs = 2000
-    args.max_val_graphs = 500
-    args.max_test_graphs = 500
-
     train,val,test = load_dataset(name = task)
     run_full_benchmark(
         name = task,
@@ -900,9 +897,9 @@ def run_paper_benchmark(args):
         tol = args.tol,
         max_iter = args.max_iter,
         num_rhs = args.num_rhs,
-        max_train_graphs = args.max_train,
-        max_val_graphs = args.max_val,
-        max_test_graphs = args.max_test,
+        max_train_graphs = 2000,
+        max_val_graphs = 500,
+        max_test_graphs = 500,
     )
 
 
@@ -966,6 +963,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 

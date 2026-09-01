@@ -5,7 +5,7 @@
   reprodcued using `uv pip freeze > requirements.txt`
 - Download the env using `uv venv .venv && uv pip install --python
   .venv/bin/python -r requirements.txt`
-
+- Python 3.12.13.
 
 ### Datasets 
 - Please download clone the ECHO datasets repositry `https://github.com/Graph-ECHO-Benchmark/ECHO`, and download 
@@ -22,5 +22,6 @@ the ECHO-SSSP dataset using `python scripts/download-all.py --task sssp`, and mo
 ### Running the exact paper benchmarks
 - ./run_paper_gcn.sh will run all the long-range propagation tests present in paper
 - ./run_paper_preconditioner.sh will run all the preconditioning quality tests present in paper
+
 
 
