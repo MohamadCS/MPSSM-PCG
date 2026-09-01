@@ -1,0 +1,722 @@
+@misc{arnaiz-rodriguezOversmoothingOversquashingHeterophily2026,
+  title = {Oversmoothing, {{Oversquashing}}, {{Heterophily}}, {{Long-Range}}, and More: {{Demystifying Common Beliefs}} in {{Graph Machine Learning}}},
+  shorttitle = {Oversmoothing, {{Oversquashing}}, {{Heterophily}}, {{Long-Range}}, and More},
+  author = {{Arnaiz-Rodriguez}, Adrian and Errica, Federico},
+  year = 2026,
+  month = feb,
+  number = {arXiv:2505.15547},
+  eprint = {2505.15547},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2505.15547},
+  urldate = {2026-04-14},
+  abstract = {After a renaissance phase in which researchers revisited the message-passing paradigm through the lens of deep learning, the graph machine learning community shifted its attention towards a deeper and practical understanding of message-passing's benefits and limitations. In this paper, we notice how the fast pace of progress around the topics of oversmoothing and oversquashing, the homophily-heterophily dichotomy, and long-range tasks, came with the consolidation of commonly accepted beliefs and assumptions -- under the form of universal statements -- that are not always true nor easy to distinguish from each other. We argue that this has led to ambiguities around the investigated problems, preventing researchers from focusing on and addressing precise research questions while causing a good amount of misunderstandings. Our contribution is to make such common beliefs explicit and encourage critical thinking around these topics, refuting universal statements via simple yet formally sufficient counterexamples. The end goal is to clarify conceptual differences, helping researchers address more clearly defined and targeted problems.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Arnaiz-Rodriguez and Errica - 2026 - Oversmoothing, Oversquashing, Heterophily, Long-Range, and more Demystifying Common Beliefs in Grap.pdf;/home/mohamad/Zotero/storage/IJ6VYRIV/2505.html}
+}
+
+@article{bakerImplicitGraphNeural,
+  title = {Implicit {{Graph Neural Networks}}: {{A Monotone Operator Viewpoint}}},
+  author = {Baker, Justin and Wang, Qingsong and Hauck, Cory},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Baker et al. - Implicit Graph Neural Networks A Monotone Operator Viewpoint.pdf}
+}
+
+@inproceedings{bakerMonotoneOperatorTheoryInspired2024,
+  title = {Monotone {{Operator Theory-Inspired Message Passing}} for {{Learning Long-Range Interaction}} on {{Graphs}}},
+  booktitle = {Proceedings of {{The}} 27th {{International Conference}} on {{Artificial Intelligence}} and {{Statistics}}},
+  author = {Baker, Justin M. and Wang, Qingsong and Berzins, Martin and Strohmer, Thomas and Wang, Bao},
+  year = 2024,
+  month = apr,
+  pages = {2233--2241},
+  publisher = {PMLR},
+  issn = {2640-3498},
+  urldate = {2026-07-29},
+  abstract = {Learning long-range interactions (LRI) between distant nodes is crucial for many graph learning tasks. Predominant graph neural networks (GNNs) rely on local message passing and struggle to learn LRI. In this paper, we propose DRGNN to learn LRI leveraging monotone operator theory. DRGNN contains two key components: (1) we use a full node similarity matrix beyond adjacency matrix -- drawing inspiration from the personalized PageRank matrix -- as the aggregation matrix for message passing, and (2) we implement message-passing on graphs using Douglas-Rachford splitting to circumvent prohibitive matrix inversion. We demonstrate that DRGNN surpasses various advanced GNNs, including Transformer-based models, on several benchmark LRI learning tasks arising from different application domains, highlighting its efficacy in learning LRI. Code is available at \textbackslash url\textbraceleft https://github.com/Utah-Math-Data-Science/PR-inspired-aggregation\textbraceright.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Baker et al. - 2024 - Monotone Operator Theory-Inspired Message Passing for Learning Long-Range Interaction on Graphs.pdf}
+}
+
+@inproceedings{bankestadIsingGraphTaskSpecific2025,
+  title = {Ising on the {{Graph}}: {{Task-Specific Graph Subsampling}} via the {{Ising Model}}},
+  shorttitle = {Ising on the {{Graph}}},
+  booktitle = {Proceedings of the {{Third Learning}} on {{Graphs Conference}}},
+  author = {B{\aa}nkestad, Maria and Andersson, Jennifer R. and Mair, Sebastian and Sj{\"o}lund, Jens},
+  year = 2025,
+  month = jul,
+  pages = {6:1-6:29},
+  publisher = {PMLR},
+  issn = {2640-3498},
+  urldate = {2026-08-12},
+  abstract = {Reducing a graph while preserving its overall properties is an important problem with many applications. Typically, reduction approaches either remove edges (sparsification) or merge nodes (coarsening) in an unsupervised way with no specific downstream task in mind. In this paper, we present an approach for subsampling graph structures using an Ising model defined on either the nodes or edges and learning the external magnetic field of the Ising model using a graph neural network. Our approach is task-specific as it can learn how to reduce a graph for a specific downstream task in an end-to-end fashion without requiring a differentiable loss function for the task. We showcase the versatility of our approach on four distinct applications: image segmentation, explainability for graph classification, 3D shape sparsification, and sparse approximate matrix inverse determination.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Bånkestad et al. - 2025 - Ising on the Graph Task-Specific Graph Subsampling via the Ising Model.pdf}
+}
+
+@article{boothNeuralAccelerationIncomplete,
+  title = {Neural {{Acceleration}} of {{Incomplete Cholesky Preconditioners}}},
+  author = {Booth, Joshua Dennis and Sun, Hongyang and Garnett, Trevor},
+  abstract = {The solution of a sparse system of linear equations is ubiquitous in scientific applications. Iterative methods, such as the Preconditioned Conjugate Gradient method (PCG), are normally chosen over direct methods due to memory and computational complexity constraints. However, the efficiency of these methods depends on the preconditioner utilized. The development of the preconditioner normally requires some insight into the sparse linear system and the desired trade-off of generating the preconditioner and the reduction in the number of iterations. Incomplete factorization methods tend to be black box methods to generate these preconditioners but may fail for a number of reasons. These reasons include numerical issues that require searching for adequate scaling, shifting, and fill-in while utilizing a difficult to parallelize algorithm. With a move towards heterogeneous computing, many sparse applications find GPUs that are optimized for dense tensor applications like training neural networks being underutilized. In this work, we demonstrate that a simple artificial neural network trained either at compile time or in parallel to the running application on a GPU can provide an incomplete sparse Cholesky factorization that can be used as a preconditioner. This generated preconditioner is as good or better in terms of reduction of iterations than the one found using multiple preconditioning techniques such as scaling and shifting. Moreover, the generated method also works and never fails to produce a preconditioner that does not reduce the iteration count.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Booth et al. - Neural Acceleration of Incomplete Cholesky Preconditioners.pdf}
+}
+
+@misc{brardaFactoredSparseApproximate2026,
+  title = {Factored {{Sparse Approximate Inverse Preconditioning}} via {{Spectral Optimization}}},
+  author = {Brarda, Francesco and Xu, Tianshi and Kalantzis, Vassilis and Li, Rui Peng and Xi, Yuanzhe},
+  year = 2026,
+  month = jun,
+  number = {arXiv:2606.22742},
+  eprint = {2606.22742},
+  primaryclass = {math.NA},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2606.22742},
+  urldate = {2026-08-12},
+  abstract = {In this paper, we study value selection for fixed-pattern factorized sparse approximate inverse preconditioners. Given a prescribed sparsity pattern for a factor \$G,\$ we choose its admissible entries by optimizing spectral objectives of the congruent preconditioned operator \$P(G)=GAG\textasciicircum T.\$ This differs from classical sparse approximate inverse and FSAI constructions, which choose entries through algebraic Frobenius-residual criteria. For symmetric positive definite systems, the spectral target is a cluster near \$+1.\$ For symmetric indefinite systems, where congruence preserves inertia, we introduce a bimodal loss that drives positive and negative eigenvalues toward separated clusters near \$+1\$ and \$-1,\$ while penalizing eigenvalues near zero. To make these objectives practical for large sparse matrices, we derive projected Krylov support-gradients. Lanczos runs provide both a stochastic trace estimate of the spectral objective and a Ritz approximation to the exact gradient. We implement the resulting gradient through a detached Rayleigh surrogate: the Lanczos data are computed without gradient tracking and held fixed, while the backward pass differentiates only recomputed Rayleigh quotients with respect to the admissible entries of \$G.\$ This avoids differentiating through the Lanczos recurrence while returning a matrix-free gradient on the prescribed support. We also discuss a projected Kernel Polynomial Method rule as a finite polynomial comparison. Experiments on finite-element test problems show that spectral value selection improves fixed-support preconditioners, especially for symmetric indefinite saddle-point systems. We further demonstrate a graph neural network model for predicting admissible factor entries across related matrices.},
+  archiveprefix = {arXiv},
+  keywords = {Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Brarda et al. - 2026 - Factored Sparse Approximate Inverse Preconditioning via Spectral Optimization.pdf;/home/mohamad/Zotero/storage/VKKLQVHL/2606.html}
+}
+
+@misc{bronsteinGeometricDeepLearning2021,
+  title = {Geometric {{Deep Learning}}: {{Grids}}, {{Groups}}, {{Graphs}}, {{Geodesics}}, and {{Gauges}}},
+  shorttitle = {Geometric {{Deep Learning}}},
+  author = {Bronstein, Michael M. and Bruna, Joan and Cohen, Taco and Veli{\v c}kovi{\'c}, Petar},
+  year = 2021,
+  month = may,
+  number = {arXiv:2104.13478},
+  eprint = {2104.13478},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2104.13478},
+  urldate = {2026-03-16},
+  abstract = {The last decade has witnessed an experimental revolution in data science and machine learning, epitomised by deep learning methods. Indeed, many high-dimensional learning tasks previously thought to be beyond reach -- such as computer vision, playing Go, or protein folding -- are in fact feasible with appropriate computational scale. Remarkably, the essence of deep learning is built from two simple algorithmic principles: first, the notion of representation or feature learning, whereby adapted, often hierarchical, features capture the appropriate notion of regularity for each task, and second, learning by local gradient-descent type methods, typically implemented as backpropagation. While learning generic functions in high dimensions is a cursed estimation problem, most tasks of interest are not generic, and come with essential pre-defined regularities arising from the underlying low-dimensionality and structure of the physical world. This text is concerned with exposing these regularities through unified geometric principles that can be applied throughout a wide spectrum of applications. Such a 'geometric unification' endeavour, in the spirit of Felix Klein's Erlangen Program, serves a dual purpose: on one hand, it provides a common mathematical framework to study the most successful neural network architectures, such as CNNs, RNNs, GNNs, and Transformers. On the other hand, it gives a constructive procedure to incorporate prior physical knowledge into neural architectures and provide principled way to build future architectures yet to be invented.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computational Geometry,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Bronstein et al. - 2021 - Geometric Deep Learning Grids, Groups, Graphs, Geodesics, and Gauges.pdf;/home/mohamad/Zotero/storage/UK582MID/2104.html}
+}
+
+@article{calderPoissonLearningGraph,
+  title = {Poisson {{Learning}}: {{Graph Based Semi-Supervised Learning}}  {{At Very Low Label Rates}}},
+  author = {Calder, Jeff and Cook, Brendan and Thorpe, Matthew and Slep{\v c}ev, Dejan},
+  abstract = {We propose a new framework, called Poisson learning, for graph based semi-supervised learning at very low label rates. Poisson learning is motivated by the need to address the degeneracy of Laplacian semi-supervised learning in this regime. The method replaces the assignment of label values at training points with the placement of sources and sinks, and solves the resulting Poisson equation on the graph. The outcomes are provably more stable and informative than those of Laplacian learning. Poisson learning is efficient and simple to implement, and we present numerical experiments showing the method is superior to other recent approaches to semi-supervised learning at low label rates on MNIST, FashionMNIST, and Cifar-10. We also propose a graph-cut enhancement of Poisson learning, called Poisson MBO, that gives higher accuracy and can incorporate prior knowledge of relative class sizes.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Calder et al. - Poisson Learning Graph Based Semi-Supervised Learning  At Very Low Label Rates.pdf}
+}
+
+@misc{ceniMessagePassingStateSpaceModels2025,
+  title = {Message-{{Passing State-Space Models}}: {{Improving Graph Learning}} with {{Modern Sequence Modeling}}},
+  shorttitle = {Message-{{Passing State-Space Models}}},
+  author = {Ceni, Andrea and Gravina, Alessio and Gallicchio, Claudio and Bacciu, Davide and Schonlieb, Carola-Bibiane and Eliasof, Moshe},
+  year = 2025,
+  month = may,
+  journal = {arXiv.org},
+  urldate = {2026-05-29},
+  abstract = {The recent success of State-Space Models (SSMs) in sequence modeling has motivated their adaptation to graph learning, giving rise to Graph State-Space Models (GSSMs). However, existing GSSMs operate by applying SSM modules to sequences extracted from graphs, often compromising core properties such as permutation equivariance, message-passing compatibility, and computational efficiency. In this paper, we introduce a new perspective by embedding the key principles of modern SSM computation directly into the Message-Passing Neural Network framework, resulting in a unified methodology for both static and temporal graphs. Our approach, MP-SSM, enables efficient, permutation-equivariant, and long-range information propagation while preserving the architectural simplicity of message passing. Crucially, MP-SSM enables an exact sensitivity analysis, which we use to theoretically characterize information flow and evaluate issues like vanishing gradients and over-squashing in the deep regime. Furthermore, our design choices allow for a highly optimized parallel implementation akin to modern SSMs. We validate MP-SSM across a wide range of tasks, including node classification, graph property prediction, long-range benchmarks, and spatiotemporal forecasting, demonstrating both its versatility and strong empirical performance.},
+  howpublished = {https://arxiv.org/abs/2505.18728v2},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Ceni et al. - 2025 - Message-Passing State-Space Models Improving Graph Learning with Modern Sequence Modeling.pdf}
+}
+
+@misc{chenGraphNeuralPreconditioners2025,
+  title = {Graph {{Neural Preconditioners}} for {{Iterative Solutions}} of {{Sparse Linear Systems}}},
+  author = {Chen, Jie},
+  year = 2025,
+  month = jan,
+  number = {arXiv:2406.00809},
+  eprint = {2406.00809},
+  primaryclass = {math.NA},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2406.00809},
+  urldate = {2026-05-30},
+  abstract = {Preconditioning is at the heart of iterative solutions of large, sparse linear systems of equations in scientific disciplines. Several algebraic approaches, which access no information beyond the matrix itself, are widely studied and used, but ill-conditioned matrices remain very challenging. We take a machine learning approach and propose using graph neural networks as a general-purpose preconditioner. They show attractive performance for many problems and can be used when the mainstream preconditioners perform poorly. Empirical evaluation on over 800 matrices suggests that the construction time of these graph neural preconditioners (GNPs) is more predictable and can be much shorter than that of other widely used ones, such as ILU and AMG, while the execution time is faster than using a Krylov method as the preconditioner, such as in inner-outer GMRES. GNPs have a strong potential for solving large-scale, challenging algebraic problems arising from not only partial differential equations, but also economics, statistics, graph, and optimization, to name a few.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Chen - 2025 - Graph Neural Preconditioners for Iterative Solutions of Sparse Linear Systems.pdf;/home/mohamad/Zotero/storage/BU534LTP/2406.html}
+}
+
+@misc{chenNeuralOrdinaryDifferential2019,
+  title = {Neural {{Ordinary Differential Equations}}},
+  author = {Chen, Ricky T. Q. and Rubanova, Yulia and Bettencourt, Jesse and Duvenaud, David},
+  year = 2019,
+  month = dec,
+  number = {arXiv:1806.07366},
+  eprint = {1806.07366},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1806.07366},
+  urldate = {2026-05-18},
+  abstract = {We introduce a new family of deep neural network models. Instead of specifying a discrete sequence of hidden layers, we parameterize the derivative of the hidden state using a neural network. The output of the network is computed using a black-box differential equation solver. These continuous-depth models have constant memory cost, adapt their evaluation strategy to each input, and can explicitly trade numerical precision for speed. We demonstrate these properties in continuous-depth residual networks and continuous-time latent variable models. We also construct continuous normalizing flows, a generative model that can train by maximum likelihood, without partitioning or ordering the data dimensions. For training, we show how to scalably backpropagate through any ODE solver, without access to its internal operations. This allows end-to-end training of ODEs within larger models.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Chen et al. - 2019 - Neural Ordinary Differential Equations.pdf;/home/mohamad/Zotero/storage/BNIJVDDD/1806.html}
+}
+
+@misc{dwivediLongRangeGraph2023,
+  title = {Long {{Range Graph Benchmark}}},
+  author = {Dwivedi, Vijay Prakash and Ramp{\'a}{\v s}ek, Ladislav and Galkin, Mikhail and Parviz, Ali and Wolf, Guy and Luu, Anh Tuan and Beaini, Dominique},
+  year = 2023,
+  month = nov,
+  number = {arXiv:2206.08164},
+  eprint = {2206.08164},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2206.08164},
+  urldate = {2026-08-29},
+  abstract = {Graph Neural Networks (GNNs) that are based on the message passing (MP) paradigm generally exchange information between 1-hop neighbors to build node representations at each layer. In principle, such networks are not able to capture long-range interactions (LRI) that may be desired or necessary for learning a given task on graphs. Recently, there has been an increasing interest in development of Transformer-based methods for graphs that can consider full node connectivity beyond the original sparse structure, thus enabling the modeling of LRI. However, MP-GNNs that simply rely on 1-hop message passing often fare better in several existing graph benchmarks when combined with positional feature representations, among other innovations, hence limiting the perceived utility and ranking of Transformer-like architectures. Here, we present the Long Range Graph Benchmark (LRGB) with 5 graph learning datasets: PascalVOC-SP, COCO-SP, PCQM-Contact, Peptides-func and Peptides-struct that arguably require LRI reasoning to achieve strong performance in a given task. We benchmark both baseline GNNs and Graph Transformer networks to verify that the models which capture long-range dependencies perform significantly better on these tasks. Therefore, these datasets are suitable for benchmarking and exploration of MP-GNNs and Graph Transformer architectures that are intended to capture LRI.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Dwivedi et al. - 2023 - Long Range Graph Benchmark.pdf;/home/mohamad/Zotero/storage/LEHLHVP4/2206.html}
+}
+
+@article{eliasofImprovingGraphNeural,
+  title = {Improving {{Graph Neural Networks}} with {{Learnable Propagation Operators}}},
+  author = {Eliasof, Moshe and Ruthotto, Lars and Treister, Eran},
+  abstract = {Graph Neural Networks (GNNs) are limited in their propagation operators. In many cases, these operators often contain non-negative elements only and are shared across channels, limiting the expressiveness of GNNs. Moreover, some GNNs suffer from over-smoothing, limiting their depth. On the other hand, Convolutional Neural Networks (CNNs) can learn diverse propagation filters, and phenomena like over-smoothing are typically not apparent in CNNs. In this paper, we bridge these gaps by incorporating trainable channel-wise weighting factors {$\omega$} to learn and mix multiple smoothing and sharpening propagation operators at each layer. Our generic method is called {$\omega$}GNN, and is easy to implement. We study two variants: {$\omega$}GCN and {$\omega$}GAT. For {$\omega$}GCN, we theoretically analyse its behaviour and the impact of {$\omega$} on the obtained node features. Our experiments confirm these findings, demonstrating and explaining how both variants do not over-smooth. Additionally, we experiment with 15 real-world datasets on node- and graph-classification tasks, where our {$\omega$}GCN and {$\omega$}GAT perform on par with state-of-the-art methods.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Eliasof et al. - Improving Graph Neural Networks with Learnable Propagation Operators.pdf}
+}
+
+@misc{eliasofTemporalDomainDifferential2024,
+  title = {On {{The Temporal Domain}} of {{Differential Equation Inspired Graph Neural Networks}}},
+  author = {Eliasof, Moshe and Haber, Eldad and Treister, Eran and Sch{\"o}nlieb, Carola-Bibiane},
+  year = 2024,
+  month = jan,
+  number = {arXiv:2401.11074},
+  eprint = {2401.11074},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2401.11074},
+  urldate = {2026-04-14},
+  abstract = {Graph Neural Networks (GNNs) have demonstrated remarkable success in modeling complex relationships in graph-structured data. A recent innovation in this field is the family of Differential Equation-Inspired Graph Neural Networks (DE-GNNs), which leverage principles from continuous dynamical systems to model information flow on graphs with built-in properties such as feature smoothing or preservation. However, existing DE-GNNs rely on first or second-order temporal dependencies. In this paper, we propose a neural extension to those pre-defined temporal dependencies. We show that our model, called TDE-GNN, can capture a wide range of temporal dynamics that go beyond typical first or second-order methods, and provide use cases where existing temporal models are challenged. We demonstrate the benefit of learning the temporal dependencies using our method rather than using pre-defined temporal dynamics on several graph benchmarks.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Eliasof et al. - 2024 - On The Temporal Domain of Differential Equation Inspired Graph Neural Networks.pdf;/home/mohamad/Zotero/storage/TBISK23N/2401.html}
+}
+
+@misc{gilmerNeuralMessagePassing2017,
+  title = {Neural {{Message Passing}} for {{Quantum Chemistry}}},
+  author = {Gilmer, Justin and Schoenholz, Samuel S. and Riley, Patrick F. and Vinyals, Oriol and Dahl, George E.},
+  year = 2017,
+  month = jun,
+  number = {arXiv:1704.01212},
+  eprint = {1704.01212},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1704.01212},
+  urldate = {2026-08-10},
+  abstract = {Supervised learning on molecules has incredible potential to be useful in chemistry, drug discovery, and materials science. Luckily, several promising and closely related neural network models invariant to molecular symmetries have already been described in the literature. These models learn a message passing algorithm and aggregation procedure to compute a function of their entire input graph. At this point, the next step is to find a particularly effective variant of this general approach and apply it to chemical prediction benchmarks until we either solve them or reach the limits of the approach. In this paper, we reformulate existing models into a single common framework we call Message Passing Neural Networks (MPNNs) and explore additional novel variations within this framework. Using MPNNs we demonstrate state of the art results on an important molecular property prediction benchmark; these results are strong enough that we believe future work should focus on datasets with larger molecules or more accurate ground truth labels.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Gilmer et al. - 2017 - Neural Message Passing for Quantum Chemistry 2.pdf;/home/mohamad/Zotero/storage/4ILYK2T4/1704.html}
+}
+
+@misc{GraphECHOBenchmarkECHO2026,
+  title = {Graph-{{ECHO-Benchmark}}/{{ECHO}}},
+  year = 2026,
+  month = jun,
+  urldate = {2026-07-20},
+  abstract = {Official reference implementation of our paper "Can You Hear Me Now? A Benchmark for Long-Range Graph Propagation".},
+  copyright = {MIT},
+  howpublished = {Graph-ECHO-Benchmark}
+}
+
+@misc{guImplicitGraphNeural2021,
+  title = {Implicit {{Graph Neural Networks}}},
+  author = {Gu, Fangda and Chang, Heng and Zhu, Wenwu and Sojoudi, Somayeh and Ghaoui, Laurent El},
+  year = 2021,
+  month = jun,
+  number = {arXiv:2009.06211},
+  eprint = {2009.06211},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2009.06211},
+  urldate = {2026-07-20},
+  abstract = {Graph Neural Networks (GNNs) are widely used deep learning models that learn meaningful representations from graph-structured data. Due to the finite nature of the underlying recurrent structure, current GNN methods may struggle to capture long-range dependencies in underlying graphs. To overcome this difficulty, we propose a graph learning framework, called Implicit Graph Neural Networks (IGNN2), where predictions are based on the solution of a fixed-point equilibrium equation involving implicitly defined ``state'' vectors. We use the Perron-Frobenius theory to derive sufficient conditions that ensure well-posedness of the framework. Leveraging implicit differentiation, we derive a tractable projected gradient descent method to train the framework. Experiments on a comprehensive range of tasks show that IGNNs consistently capture long-range dependencies and outperform the state-of-the-art GNN models.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Gu et al. - 2021 - Implicit Graph Neural Networks.pdf}
+}
+
+@article{hamiltonGraphRepresentationLearning,
+  title = {Graph {{Representation Learning}}},
+  author = {Hamilton, William L},
+  abstract = {Graph-structured data is ubiquitous throughout the natural and social sciences, from telecommunication networks to quantum chemistry. Building relational inductive biases into deep learning architectures is crucial if we want systems that can learn, reason, and generalize from this kind of data. Recent years have seen a surge in research on graph representation learning, including techniques for deep graph embeddings, generalizations of convolutional neural networks to graph-structured data, and neural message-passing approaches inspired by belief propagation. These advances in graph representation learning have led to new state-of-the-art results in numerous domains, including chemical synthesis, 3D-vision, recommender systems, question answering, and social network analysis.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Hamilton - Graph Representation Learning.pdf}
+}
+
+@misc{hamiltonInductiveRepresentationLearning2018,
+  title = {Inductive {{Representation Learning}} on {{Large Graphs}}},
+  author = {Hamilton, William L. and Ying, Rex and Leskovec, Jure},
+  year = 2018,
+  month = sep,
+  number = {arXiv:1706.02216},
+  eprint = {1706.02216},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1706.02216},
+  urldate = {2026-03-12},
+  abstract = {Low-dimensional embeddings of nodes in large graphs have proved extremely useful in a variety of prediction tasks, from content recommendation to identifying protein functions. However, most existing approaches require that all nodes in the graph are present during training of the embeddings; these previous approaches are inherently transductive and do not naturally generalize to unseen nodes. Here we present GraphSAGE, a general, inductive framework that leverages node feature information (e.g., text attributes) to efficiently generate node embeddings for previously unseen data. Instead of training individual embeddings for each node, we learn a function that generates embeddings by sampling and aggregating features from a node's local neighborhood. Our algorithm outperforms strong baselines on three inductive node-classification benchmarks: we classify the category of unseen nodes in evolving information graphs based on citation and Reddit post data, and we show that our algorithm generalizes to completely unseen graphs using a multi-graph dataset of protein-protein interactions.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Computer Science - Social and Information Networks,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Hamilton et al. - 2018 - Inductive Representation Learning on Large Graphs.pdf;/home/mohamad/Zotero/storage/GFI5TA9G/1706.html}
+}
+
+@article{hausnerLearningIncompleteFactorization,
+  title = {Learning Incomplete Factorization Preconditioners for {{GMRES}}},
+  author = {Hausner, Paul and Juscafresa, Aleix Nieto and Sjolund, Jens},
+  abstract = {In this paper, we develop a data-driven approach to generate incomplete LU factorizations of largescale sparse matrices. The learned approximate factorization is utilized as a preconditioner for the corresponding linear equation system in the GMRES method. Incomplete factorization methods are one of the most commonly applied algebraic preconditioners for sparse linear equation systems and are able to speed up the convergence of Krylov subspace methods. However, they are sensitive to hyper-parameters and might suffer from numerical breakdown or lead to slow convergence when not properly applied. We replace the typically handengineered algorithms with a graph neural networkbased approach that is trained against data to predict an approximate factorization. This allows us to learn preconditioners tailored for a specific problem distribution. We analyze and empirically evaluate different loss functions to train the learned preconditioners and show their effectiveness to decrease the number of GMRES iterations and improve the spectral properties on our synthetic dataset. The code is available at https://github.com/paulhausner/ neural-incomplete-factorization.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Hausner et al. - Learning incomplete factorization preconditioners for GMRES.pdf}
+}
+
+@misc{hausnerNeuralIncompleteFactorization2024,
+  title = {Neural Incomplete Factorization: Learning Preconditioners for the Conjugate Gradient Method},
+  shorttitle = {Neural Incomplete Factorization},
+  author = {H{\"a}usner, Paul and {\"O}ktem, Ozan and Sj{\"o}lund, Jens},
+  year = 2024,
+  month = oct,
+  number = {arXiv:2305.16368},
+  eprint = {2305.16368},
+  primaryclass = {math.OC},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2305.16368},
+  urldate = {2026-06-29},
+  abstract = {The convergence of the conjugate gradient method for solving large-scale and sparse linear equation systems depends on the spectral properties of the system matrix, which can be improved by preconditioning. In this paper, we develop a computationally efficient data-driven approach to accelerate the generation of effective preconditioners. We, therefore, replace the typically hand-engineered preconditioners by the output of graph neural networks. Our method generates an incomplete factorization of the matrix and is, therefore, referred to as neural incomplete factorization (NeuralIF). Optimizing the condition number of the linear system directly is computationally infeasible. Instead, we utilize a stochastic approximation of the Frobenius loss which only requires matrix-vector multiplications for efficient training. At the core of our method is a novel message-passing block, inspired by sparse matrix theory, that aligns with the objective of finding a sparse factorization of the matrix. We evaluate our proposed method on both synthetic problem instances and on problems arising from the discretization of the Poisson equation on varying domains. Our experiments show that by using data-driven preconditioners within the conjugate gradient method we are able to speed up the convergence of the iterative procedure. The code is available at https://github.com/paulhausner/neural-incomplete-factorization.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Mathematics - Numerical Analysis,Mathematics - Optimization and Control,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Häusner et al. - 2024 - Neural incomplete factorization learning preconditioners for the conjugate gradient method.pdf;/home/mohamad/Zotero/storage/AQSW9EHD/2305.html}
+}
+
+@article{lererMultigridAugmentedDeepLearning2024,
+  title = {Multigrid-{{Augmented Deep Learning Preconditioners}} for the {{Helmholtz Equation}} Using {{Compact Implicit Layers}}},
+  author = {Lerer, Bar and {Ben-Yair}, Ido and Treister, Eran},
+  year = 2024,
+  month = oct,
+  journal = {SIAM Journal on Scientific Computing},
+  volume = {46},
+  number = {5},
+  eprint = {2306.17486},
+  primaryclass = {cs.LG},
+  pages = {S123-S144},
+  issn = {1064-8275, 1095-7197},
+  doi = {10.1137/23M1583302},
+  urldate = {2026-08-12},
+  abstract = {We present a deep learning-based iterative approach to solve the discrete heterogeneous Helmholtz equation for high wavenumbers. Combining classical iterative multigrid solvers and convolutional neural networks (CNNs) via preconditioning, we obtain a faster, learned neural solver that scales better than a standard multigrid solver. Our approach offers three main contributions over previous neural methods of this kind. First, we construct a multilevel U-Net-like encoder-solver CNN with an implicit layer on the coarsest grid of the U-Net, where convolution kernels are inverted. This alleviates the field of view problem in CNNs and allows better scalability. Second, we improve upon the previous CNN preconditioner in terms of the number of parameters, computation time, and convergence rates. Third, we propose a multiscale training approach that enables the network to scale to problems of previously unseen dimensions while still maintaining a reasonable training procedure. Our encoder-solver architecture can be used to generalize over different slowness models of various difficulties and is efficient at solving for many right-hand sides per slowness model. We demonstrate the benefits of our novel architecture with numerical experiments on various heterogeneous two-dimensional problems at high wavenumbers.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computational Engineering Finance and Science,Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Lerer et al. - 2024 - Multigrid-Augmented Deep Learning Preconditioners for the Helmholtz Equation using Compact Implicit.pdf}
+}
+
+@article{liaoGREENERGRASSENHANCING2025,
+  title = {{{GREENER GRASS}}: {{ENHANCING GNNS WITH ENCODING}}, {{REWIRING}}, {{AND ATTENTION}}},
+  author = {Liao, Tongzhou and Poczos, Barnabas},
+  year = 2025,
+  abstract = {Graph Neural Networks (GNNs) have become important tools for machine learning on graph-structured data. In this paper, we explore the synergistic combination of graph encoding, graph rewiring, and graph attention, by introducing Graph Attention with Stochastic Structures (GRASS), a novel GNN architecture. GRASS utilizes relative random walk probabilities (RRWP) encoding and a novel decomposed variant (D-RRWP) to efficiently capture structural information. It rewires the input graph by superimposing a random regular graph to enhance long-range information propagation. It also employs a novel additive attention mechanism tailored for graph-structured data. Our empirical evaluations demonstrate that GRASS achieves state-of-the-art performance on multiple benchmark datasets, including a 20.3\% reduction in mean absolute error on the ZINC dataset.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Liao and Poczos - 2025 - GREENER GRASS ENHANCING GNNS WITH ENCODING, REWIRING, AND ATTENTION.pdf}
+}
+
+@incollection{liGenerativeModelingSparse2024,
+  title = {Generative {{Modeling}} of {{Sparse Approximate Inverse Preconditioners}}},
+  booktitle = {Computational {{Science}} -- {{ICCS}} 2024},
+  author = {Li, Mou and Wang, He and Jimack, Peter K.},
+  editor = {Franco, Leonardo and De Mulatier, Cl{\'e}lia and Paszynski, Maciej and Krzhizhanovskaya, Valeria V. and Dongarra, Jack J. and Sloot, Peter M. A.},
+  year = 2024,
+  volume = {14834},
+  pages = {378--392},
+  publisher = {Springer Nature Switzerland},
+  address = {Cham},
+  doi = {10.1007/978-3-031-63759-9_40},
+  urldate = {2026-08-12},
+  abstract = {We present a new deep learning paradigm for the generation of sparse approximate inverse (SPAI) preconditioners for matrix systems arising from the mesh-based discretization of elliptic differential operators. Our approach is based upon the observation that matrices generated in this manner are not arbitrary, but inherit properties from differential operators that they discretize. Consequently, we seek to represent a learnable distribution of high-performance preconditioners from a low-dimensional subspace through a carefully-designed autoencoder, which is able to generate SPAI preconditioners for these systems. The concept has been implemented on a variety of finite element discretizations of second- and fourth-order elliptic partial differential equations with highly promising results.},
+  isbn = {978-3-031-63758-2 978-3-031-63759-9},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Li et al. - 2024 - Generative Modeling of Sparse Approximate Inverse Preconditioners.pdf}
+}
+
+@misc{liLearningPreconditionerConjugate2023,
+  title = {Learning {{Preconditioner}} for {{Conjugate Gradient PDE Solvers}}},
+  author = {Li, Yichen and Chen, Peter Yichen and Du, Tao and Matusik, Wojciech},
+  year = 2023,
+  month = sep,
+  number = {arXiv:2305.16432},
+  eprint = {2305.16432},
+  primaryclass = {math.NA},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2305.16432},
+  urldate = {2026-05-29},
+  abstract = {Efficient numerical solvers for partial differential equations empower science and engineering. One of the commonly employed numerical solvers is the preconditioned conjugate gradient (PCG) algorithm which can solve large systems to a given precision level. One challenge in PCG solvers is the selection of preconditioners, as different problem-dependent systems can benefit from different preconditioners. We present a new method to introduce \textbackslash emph\textbraceleft inductive bias\textbraceright{} in preconditioning conjugate gradient algorithm. Given a system matrix and a set of solution vectors arise from an underlying distribution, we train a graph neural network to obtain an approximate decomposition to the system matrix to be used as a preconditioner in the context of PCG solvers. We conduct extensive experiments to demonstrate the efficacy and generalizability of our proposed approach in solving various 2D and 3D linear second-order PDEs.},
+  archiveprefix = {arXiv},
+  keywords = {Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Li et al. - 2023 - Learning Preconditioner for Conjugate Gradient PDE Solvers.pdf;/home/mohamad/Zotero/storage/BGRN446E/2305.html}
+}
+
+@misc{liNeuralPreconditioningOperator2025,
+  title = {Neural {{Preconditioning Operator}} for {{Efficient PDE Solves}}},
+  author = {Li, Zhihao and Xiao, Di and Lai, Zhilu and Wang, Wei},
+  year = 2025,
+  month = feb,
+  journal = {arXiv.org},
+  urldate = {2026-08-12},
+  abstract = {We introduce the Neural Preconditioning Operator (NPO), a novel approach designed to accelerate Krylov solvers in solving large, sparse linear systems derived from partial differential equations (PDEs). Unlike classical preconditioners that often require extensive tuning and struggle to generalize across different meshes or parameters, NPO employs neural operators trained via condition and residual losses. This framework seamlessly integrates with existing neural network models, serving effectively as a preconditioner to enhance the performance of Krylov subspace methods. Further, by melding algebraic multigrid principles with a transformer-based architecture, NPO significantly reduces iteration counts and runtime for solving Poisson, Diffusion, and Linear Elasticity problems on both uniform and irregular meshes. Our extensive numerical experiments demonstrate that NPO outperforms traditional methods and contemporary neural approaches across various resolutions, ensuring robust convergence even on grids as large as 4096, far exceeding its initial training limits. These findings underscore the potential of data-driven preconditioning to transform the computational efficiency of high-dimensional PDE applications.},
+  howpublished = {https://arxiv.org/abs/2502.01337v2},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Li et al. - 2025 - Neural Preconditioning Operator for Efficient PDE Solves.pdf}
+}
+
+@inproceedings{luzLearningAlgebraicMultigrid2020,
+  title = {Learning {{Algebraic Multigrid Using Graph Neural Networks}}},
+  booktitle = {Proceedings of the 37th {{International Conference}} on {{Machine Learning}}},
+  author = {Luz, Ilay and Galun, Meirav and Maron, Haggai and Basri, Ronen and Yavneh, Irad},
+  year = 2020,
+  month = nov,
+  pages = {6489--6499},
+  publisher = {PMLR},
+  issn = {2640-3498},
+  urldate = {2026-08-12},
+  abstract = {Efficient numerical solvers for sparse linear systems are crucial in science and engineering. One of the fastest methods for solving large-scale sparse linear systems is algebraic multigrid (AMG). The main challenge in the construction of AMG algorithms is the selection of the prolongation operator---a problem-dependent sparse matrix which governs the multiscale hierarchy of the solver and is critical to its efficiency. Over many years, numerous methods have been developed for this task, and yet there is no known single right answer except in very special cases. Here we propose a framework for learning AMG prolongation operators for linear systems with sparse symmetric positive (semi-) definite matrices. We train a single graph neural network to learn a mapping from an entire class of such matrices to prolongation operators, using an efficient unsupervised loss function. Experiments on a broad class of problems demonstrate improved convergence rates compared to classical AMG, demonstrating the potential utility of neural networks for developing sparse system solvers.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Luz et al. - 2020 - Learning Algebraic Multigrid Using Graph Neural Networks.pdf}
+}
+
+@misc{migliorCanYouHear2026,
+  title = {Can {{You Hear Me Now}}? {{A Benchmark}} for {{Long-Range Graph Propagation}}},
+  shorttitle = {Can {{You Hear Me Now}}?},
+  author = {Miglior, Luca and Tolloso, Matteo and Gravina, Alessio and Bacciu, Davide},
+  year = 2026,
+  month = feb,
+  number = {arXiv:2512.17762},
+  eprint = {2512.17762},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2512.17762},
+  urldate = {2026-08-29},
+  abstract = {Effectively capturing long-range interactions remains a fundamental yet unresolved challenge in graph neural network (GNN) research, critical for applications across diverse fields of science. To systematically address this, we introduce ECHO (Evaluating Communication over long HOps), a novel benchmark specifically designed to rigorously assess the capabilities of GNNs in handling very long-range graph propagation. ECHO includes three synthetic graph tasks, namely single-source shortest paths, node eccentricity, and graph diameter, each constructed over diverse and structurally challenging topologies intentionally designed to introduce significant information bottlenecks. ECHO also includes two real-world datasets, ECHO-Charge and ECHO-Energy, which define chemically grounded benchmarks for predicting atomic partial charges and molecular total energies, respectively, with reference computations obtained at the density functional theory (DFT) level. Both tasks inherently depend on capturing complex long-range molecular interactions. Our extensive benchmarking of popular GNN architectures reveals clear performance gaps, emphasizing the difficulty of true long-range propagation and highlighting design choices capable of overcoming inherent limitations. ECHO thereby sets a new standard for evaluating long-range information propagation, also providing a compelling example for its need in AI for science.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Miglior et al. - 2026 - Can You Hear Me Now A Benchmark for Long-Range Graph Propagation.pdf;/home/mohamad/Zotero/storage/E3JBCHUH/2512.html}
+}
+
+@misc{miquel-oliverEffectiveResistanceRewiring2026,
+  title = {Effective {{Resistance Rewiring}}: {{A Simple Topological Correction}} for {{Over-Squashing}}},
+  shorttitle = {Effective {{Resistance Rewiring}}},
+  author = {{Miquel-Oliver}, Bertran and {Gil-Sorribes}, Manel and Guallar, Victor and Molina, Alexis},
+  year = 2026,
+  month = mar,
+  number = {arXiv:2603.11944},
+  eprint = {2603.11944},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2603.11944},
+  urldate = {2026-08-02},
+  abstract = {Graph Neural Networks struggle to capture long-range dependencies due to over-squashing, where information from exponentially growing neighborhoods must pass through a small number of structural bottlenecks. While recent rewiring methods attempt to alleviate this limitation, many rely on local criteria such as curvature, which can overlook global connectivity constraints that restrict information flow. We introduce Effective Resistance Rewiring (ERR), a simple topology correction strategy that uses effective resistance as a global signal to detect structural bottlenecks. ERR iteratively adds edges between node pairs with the largest resistance while removing edges with minimal resistance, strengthening weak communication pathways while controlling graph densification under a fixed edge budget. The procedure is parameter-free beyond the rewiring budget and relies on a single global measure aggregating all paths between node pairs. Beyond predictive performance with GCN models, we analyze how rewiring affects message propagation. By tracking cosine similarity between node embeddings across layers, we examine how the relationship between initial node features and learned representations evolves during message passing, comparing graphs with and without rewiring. This analysis helps determine whether improvements arise from better long-range communication rather than changes in embedding geometry. Experiments on homophilic and heterophilic graphs, including directed settings with DirGCN, reveal a trade-off between over-squashing and oversmoothing, where oversmoothing corresponds to the loss of representation diversity across layers. Resistance-guided rewiring improves connectivity and signal propagation but can accelerate representation mixing in deep models. Combining ERR with normalization techniques such as PairNorm stabilizes this trade-off and improves performance.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Miquel-Oliver et al. - 2026 - Effective Resistance Rewiring A Simple Topological Correction for Over-Squashing.pdf;/home/mohamad/Zotero/storage/MRMJ3ZSX/2603.html}
+}
+
+@misc{osborneHierarchicalTransformerPreconditioning2026,
+  title = {Hierarchical {{Transformer Preconditioning}} for {{Interactive Physics Simulation}}},
+  author = {Osborne, Carl and Guo, Minghao and Owens, Crystal and Matusik, Wojciech},
+  year = 2026,
+  month = may,
+  number = {arXiv:2605.13343},
+  eprint = {2605.13343},
+  primaryclass = {cs.GR},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2605.13343},
+  urldate = {2026-08-12},
+  abstract = {Neural preconditioners for real-time physics simulation offer promising data-driven priors, but they often fail to capture long-range couplings efficiently because they inherit local message passing or sparse-operator access patterns. We introduce the Hierarchical Transformer Preconditioner, a neural preconditioner anchored to a weak-admissibility H-matrix partition. The partition provides a multiscale structural prior (dense diagonal leaves plus coarsening off-diagonal tiles) that enables full-graph approximate-inverse computation with O(N) scaling at fixed block sizes. The network models the inverse through low-rank far-field factors and uses highway connections (axial buffers plus a global summary token) to propagate context across transformer depth. At each PCG iteration, preconditioner application reduces to batched dense GEMMs with regular memory access. The key training contribution is a cosine-Hutchinson probe objective that learns the action of MA on convergence-critical spectral subspaces, optimizing angular alignment of MAz with z rather than forcing eigenvalue clusters to a prescribed location. This removes unnecessary spectral-placement constraints from SAI-style objectives and improves conditioning on irregular spectra. Because both inference and apply are dense, dependency-free tensor programs, the full solve loop is captured as a single CUDA Graph. On stiff multiphase Poisson systems (up to 100:1 density contrast, N = 1,024-16,384), the solver runs from \textasciitilde 143 to \textasciitilde 21 fps. At N = 8,192, it reaches 17.9 ms/frame, with 2.2x speedup over GPU Jacobi, \textasciitilde 28x over GPU IC/DILU (AMGX multicolor\_dilu), and 2.7x over neural SPAI retrained per scale on the same benchmark.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Distributed Parallel and Cluster Computing,Computer Science - Graphics,Computer Science - Machine Learning,Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Osborne et al. - 2026 - Hierarchical Transformer Preconditioning for Interactive Physics Simulation.pdf;/home/mohamad/Zotero/storage/VTC7PTBF/2605.html}
+}
+
+@misc{rampasekRecipeGeneralPowerful2023,
+  title = {Recipe for a {{General}}, {{Powerful}}, {{Scalable Graph Transformer}}},
+  author = {Ramp{\'a}{\v s}ek, Ladislav and Galkin, Mikhail and Dwivedi, Vijay Prakash and Luu, Anh Tuan and Wolf, Guy and Beaini, Dominique},
+  year = 2023,
+  month = jan,
+  number = {arXiv:2205.12454},
+  eprint = {2205.12454},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2205.12454},
+  urldate = {2026-07-21},
+  abstract = {We propose a recipe on how to build a general, powerful, scalable (GPS) graph Transformer with linear complexity and state-of-the-art results on a diverse set of benchmarks. Graph Transformers (GTs) have gained popularity in the field of graph representation learning with a variety of recent publications but they lack a common foundation about what constitutes a good positional or structural encoding, and what differentiates them. In this paper, we summarize the different types of encodings with a clearer definition and categorize them as being \$\textbackslash textit\textbraceleft local\textbraceright\$, \$\textbackslash textit\textbraceleft global\textbraceright\$ or \$\textbackslash textit\textbraceleft relative\textbraceright\$. The prior GTs are constrained to small graphs with a few hundred nodes, here we propose the first architecture with a complexity linear in the number of nodes and edges \$O(N+E)\$ by decoupling the local real-edge aggregation from the fully-connected Transformer. We argue that this decoupling does not negatively affect the expressivity, with our architecture being a universal function approximator on graphs. Our GPS recipe consists of choosing 3 main ingredients: (i) positional/structural encoding, (ii) local message-passing mechanism, and (iii) global attention mechanism. We provide a modular framework \$\textbackslash textit\textbraceleft GraphGPS\textbraceright\$ that supports multiple types of encodings and that provides efficiency and scalability both in small and large graphs. We test our architecture on 16 benchmarks and show highly competitive results in all of them, show-casing the empirical benefits gained by the modularity and the combination of different strategies.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Rampášek et al. - 2023 - Recipe for a General, Powerful, Scalable Graph Transformer.pdf;/home/mohamad/Zotero/storage/NJVC62QQ/2205.html}
+}
+
+@article{sapplConvolutionalNeuralNetworkdriven2026,
+  title = {Convolutional Neural Network-Driven Preconditioners for Conjugate Gradients},
+  author = {Sappl, Johannes and Daropoulos, Viktor and Rauch, Wolfgang and Harders, Matthias},
+  year = 2026,
+  month = jun,
+  journal = {Machine Learning: Science and Technology},
+  volume = {7},
+  number = {3},
+  pages = {035059},
+  publisher = {IOP Publishing},
+  issn = {2632-2153},
+  doi = {10.1088/2632-2153/ae76ba},
+  urldate = {2026-08-12},
+  abstract = {We present a data-driven approach for preconditioning large sparse symmetric positive definite linear systems using convolutional neural networks tailored for sparse tensor inputs. Our work targets system matrices arising from the discretization of partial differential equations (PDE), such as those in computational fluid dynamics, which are characterized by sparsity and structured patterns. The proposed fully convolutional architecture receives the system matrix and outputs a Cholesky-like preconditioner. It is trained to approximate the inverse directly from data, without relying on traditional heuristics. We evaluate our method against no preconditioning, Jacobi, incomplete Cholesky (IC), incomplete LU, a recent graph neural network-based approach, and algebraic multigrid (AMG) as a highly specialized gold-standard reference. Experimental results demonstrate that our model achieves statistically significantly lower total solve times relative to all non-AMG baselines, including the state-of-the-art neural incomplete factorization, driven by inexpensive per-iteration application rather than by a reduced condition number. Algebraic multigrid remains faster in both case studies, consistent with its specialization for elliptic PDE. Iteration counts are reduced relative to the unpreconditioned baseline and Jacobi. Methods such as IC achieve substantially fewer iterations but at a higher per-iteration cost. Our learned preconditioner generalizes to higher-resolution problems without retraining and consistently improves system conditioning. We consider these results encouraging: convolutional architectures are a viable data-driven path toward scalable preconditioning without requiring problem-specific structural knowledge.},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Sappl et al. - 2026 - Convolutional neural network-driven preconditioners for conjugate gradients.pdf}
+}
+
+@misc{sapplDeepLearningPreconditioners2019,
+  title = {Deep {{Learning}} of {{Preconditioners}} for {{Conjugate Gradient Solvers}} in {{Urban Water Related Problems}}},
+  author = {Sappl, Johannes and Seiler, Laurent and Harders, Matthias and Rauch, Wolfgang},
+  year = 2019,
+  month = jun,
+  number = {arXiv:1906.06925},
+  eprint = {1906.06925},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1906.06925},
+  urldate = {2026-08-12},
+  abstract = {Solving systems of linear equations is a problem occuring frequently in water engineering applications. Usually the size of the problem is too large to be solved via direct factorization. One can resort to iterative approaches, in particular the conjugate gradients method if the matrix is symmetric positive definite. Preconditioners further enhance the rate of convergence but hitherto only handcrafted ones requiring expert knowledge have been used. We propose an innovative approach employing Machine Learning, in particular a Convolutional Neural Network, to unassistedly design preconditioning matrices specifically for the problem at hand. Based on an in-depth case study in fluid simulation we are able to show that our learned preconditioner is able to improve the convergence rate even beyond well established methods like incomplete Cholesky factorization or Algebraic MultiGrid.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Mathematics - Numerical Analysis,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Sappl et al. - 2019 - Deep Learning of Preconditioners for Conjugate Gradient Solvers in Urban Water Related Problems.pdf}
+}
+
+@article{scarselliGraphNeuralNetwork2009,
+  title = {The {{Graph Neural Network Model}}},
+  author = {Scarselli, Franco and Gori, Marco and Tsoi, Ah Chung and Hagenbuchner, Markus and Monfardini, Gabriele},
+  year = 2009,
+  month = jan,
+  journal = {IEEE Transactions on Neural Networks},
+  volume = {20},
+  number = {1},
+  pages = {61--80},
+  issn = {1941-0093},
+  doi = {10.1109/TNN.2008.2005605},
+  urldate = {2025-11-16},
+  abstract = {Many underlying relationships among data in several areas of science and engineering, e.g., computer vision, molecular chemistry, molecular biology, pattern recognition, and data mining, can be represented in terms of graphs. In this paper, we propose a new neural network model, called graph neural network (GNN) model, that extends existing neural network methods for processing the data represented in graph domains. This GNN model, which can directly process most of the practically useful types of graphs, e.g., acyclic, cyclic, directed, and undirected, implements a function tau(G,n) isin IRm that maps a graph G and one of its nodes n into an m-dimensional Euclidean space. A supervised learning algorithm is derived to estimate the parameters of the proposed GNN model. The computational cost of the proposed algorithm is also considered. Some experimental results are shown to validate the proposed learning algorithm, and to demonstrate its generalization capabilities.},
+  keywords = {Biological system modeling,Biology,Chemistry,Computer vision,Data engineering,Data mining,graph neural networks (GNNs),graph processing,Graphical domains,Neural networks,Parameter estimation,Pattern recognition,recursive neural networks,Supervised learning},
+  file = {/home/mohamad/Documents/Zotero/Scarselli et al. - 2009 - The Graph Neural Network Model.pdf;/home/mohamad/Zotero/storage/HGUDLS9Z/4700287.html}
+}
+
+@article{shumanEmergingFieldSignal2013,
+  title = {The {{Emerging Field}} of {{Signal Processing}} on {{Graphs}}: {{Extending High-Dimensional Data Analysis}} to {{Networks}} and {{Other Irregular Domains}}},
+  shorttitle = {The {{Emerging Field}} of {{Signal Processing}} on {{Graphs}}},
+  author = {Shuman, David I. and Narang, Sunil K. and Frossard, Pascal and Ortega, Antonio and Vandergheynst, Pierre},
+  year = 2013,
+  month = may,
+  journal = {IEEE Signal Processing Magazine},
+  volume = {30},
+  number = {3},
+  eprint = {1211.0053},
+  primaryclass = {cs},
+  pages = {83--98},
+  issn = {1053-5888},
+  doi = {10.1109/MSP.2012.2235192},
+  urldate = {2026-03-19},
+  abstract = {In applications such as social, energy, transportation, sensor, and neuronal networks, high-dimensional data naturally reside on the vertices of weighted graphs. The emerging field of signal processing on graphs merges algebraic and spectral graph theoretic concepts with computational harmonic analysis to process such signals on graphs. In this tutorial overview, we outline the main challenges of the area, discuss different ways to define graph spectral domains, which are the analogues to the classical frequency domain, and highlight the importance of incorporating the irregular structures of graph data domains when processing signals on graphs. We then review methods to generalize fundamental operations such as filtering, translation, modulation, dilation, and downsampling to the graph setting, and survey the localized, multiscale transforms that have been proposed to efficiently extract information from high-dimensional data on graphs. We conclude with a brief discussion of open issues and possible extensions.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Discrete Mathematics,Computer Science - Machine Learning,Computer Science - Social and Information Networks},
+  file = {/home/mohamad/Documents/Zotero/Shuman et al. - 2013 - The Emerging Field of Signal Processing on Graphs Extending High-Dimensional Data Analysis to Netwo 1.pdf;/home/mohamad/Zotero/storage/DZ8PHYW3/1211.html}
+}
+
+@misc{siddiquiNafi007GraphInverseProblems2025,
+  title = {Nafi007/{{GraphInverseProblems}}},
+  author = {Siddiqui, Md Shahriar Rahim},
+  year = 2025,
+  month = jul,
+  urldate = {2026-08-20},
+  abstract = {Learning Regularization for Graph Inverse Problems (GRIPs)},
+  copyright = {MIT}
+}
+
+@misc{toppingUnderstandingOversquashingBottlenecks2022,
+  title = {Understanding Over-Squashing and Bottlenecks on Graphs via Curvature},
+  author = {Topping, Jake and Giovanni, Francesco Di and Chamberlain, Benjamin Paul and Dong, Xiaowen and Bronstein, Michael M.},
+  year = 2022,
+  month = nov,
+  number = {arXiv:2111.14522},
+  eprint = {2111.14522},
+  primaryclass = {stat},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2111.14522},
+  urldate = {2025-11-23},
+  abstract = {Most graph neural networks (GNNs) use the message passing paradigm, in which node features are propagated on the input graph. Recent works pointed to the distortion of information flowing from distant nodes as a factor limiting the efficiency of message passing for tasks relying on long-distance interactions. This phenomenon, referred to as 'over-squashing', has been heuristically attributed to graph bottlenecks where the number of \$k\$-hop neighbors grows rapidly with \$k\$. We provide a precise description of the over-squashing phenomenon in GNNs and analyze how it arises from bottlenecks in the graph. For this purpose, we introduce a new edge-based combinatorial curvature and prove that negatively curved edges are responsible for the over-squashing issue. We also propose and experimentally test a curvature-based graph rewiring method to alleviate the over-squashing.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Topping et al. - 2022 - Understanding over-squashing and bottlenecks on graphs via curvature.pdf;/home/mohamad/Zotero/storage/ZJY278ZF/2111.html}
+}
+
+@misc{Torch_geometricdatasetsLRGBDatasetPytorch_geometricDocumentation,
+  title = {Torch\_geometric.Datasets.{{LRGBDataset}} --- Pytorch\_geometric Documentation},
+  urldate = {2026-07-20},
+  howpublished = {https://pytorch-geometric.readthedocs.io/en/2.7.0/generated/torch\_geometric.datasets.LRGBDataset.html},
+  file = {/home/mohamad/Zotero/storage/NRC478XP/torch_geometric.datasets.LRGBDataset.html}
+}
+
+@misc{trifonovLearningLinearAlgebra2025,
+  title = {Learning from {{Linear Algebra}}: {{A Graph Neural Network Approach}} to {{Preconditioner Design}} for {{Conjugate Gradient Solvers}}},
+  shorttitle = {Learning from {{Linear Algebra}}},
+  author = {Trifonov, Vladislav and Rudikov, Alexander and Iliev, Oleg and Laevsky, Yuri M. and Oseledets, Ivan and Muravleva, Ekaterina},
+  year = 2025,
+  month = feb,
+  number = {arXiv:2405.15557},
+  eprint = {2405.15557},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2405.15557},
+  urldate = {2026-08-12},
+  abstract = {Large linear systems are ubiquitous in modern computational science and engineering. The main recipe for solving them is the use of Krylov subspace iterative methods with well-designed preconditioners. Recently, GNNs have been shown to be a promising tool for designing preconditioners to reduce the overall computational cost of iterative methods by constructing them more efficiently than with classical linear algebra techniques. Preconditioners designed with these approaches cannot outperform those designed with classical methods in terms of the number of iterations in CG. In our work, we recall wellestablished preconditioners from linear algebra and use them as a starting point for training the GNN to obtain preconditioners that reduce the condition number of the system more significantly than classical preconditioners. Numerical experiments show that our approach outperforms both classical and neural network-based methods for an important class of parametric partial differential equations. We also provide a heuristic justification for the loss function used and show that preconditioners obtained by learning with this loss function reduce the condition number in a more desirable way for CG.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Trifonov et al. - 2025 - Learning from Linear Algebra A Graph Neural Network Approach to Preconditioner Design for Conjugate.pdf}
+}
+
+@misc{trifonovMessagePassingGNNsFail2026,
+  title = {Message-{{Passing GNNs Fail}} to {{Approximate Sparse Triangular Factorizations}}},
+  author = {Trifonov, Vladislav and Muravleva, Ekaterina and Oseledets, Ivan},
+  year = 2026,
+  month = may,
+  number = {arXiv:2502.01397},
+  eprint = {2502.01397},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2502.01397},
+  urldate = {2026-06-13},
+  abstract = {Graph Neural Networks (GNNs) have been proposed as a tool for learning sparse matrix preconditioners, which are key components in accelerating linear solvers. We present theoretical and empirical evidence that message-passing GNNs are fundamentally incapable of approximating sparse triangular factorizations for classes of matrices for which high-quality preconditioners exist but require non-local dependencies. To illustrate this, we construct a set of baselines using both synthetic matrices and real-world examples from the SuiteSparse collection. Across a range of GNN architectures, including Graph Attention Networks and Graph Transformers, we observe low cosine similarity (\$\textbackslash leq0.7\$ in key cases) between predicted and reference factors. Our theoretical and empirical results suggest that architectural innovations beyond message-passing are necessary for applying GNNs to scientific computing tasks such as matrix factorization. Moreover, experiments demonstrate that overcoming non-locality alone is insufficient. Tailored architectures are necessary to capture the required dependencies since even a completely non-local Global Graph Transformer fails to match the proposed baselines.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Trifonov et al. - 2026 - Message-Passing GNNs Fail to Approximate Sparse Triangular Factorizations.pdf;/home/mohamad/Zotero/storage/KAGSZ6G3/2502.html}
+}
+
+@misc{vaswaniAttentionAllYou2023,
+  title = {Attention {{Is All You Need}}},
+  author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
+  year = 2023,
+  month = aug,
+  number = {arXiv:1706.03762},
+  eprint = {1706.03762},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1706.03762},
+  urldate = {2026-03-08},
+  abstract = {The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Vaswani et al. - 2023 - Attention Is All You Need 1.pdf;/home/mohamad/Zotero/storage/URJE5I2K/1706.html}
+}
+
+@misc{wangGraphFoundationModels2025,
+  title = {Graph {{Foundation Models}}: {{A Comprehensive Survey}}},
+  shorttitle = {Graph {{Foundation Models}}},
+  author = {Wang, Zehong and Liu, Zheyuan and Ma, Tianyi and Li, Jiazheng and Zhang, Zheyuan and Fu, Xingbo and Li, Yiyang and Yuan, Zhengqing and Song, Wei and Ma, Yijun and Zeng, Qingkai and Chen, Xiusi and Zhao, Jianan and Li, Jundong and Jiang, Meng and Lio, Pietro and Chawla, Nitesh and Zhang, Chuxu and Ye, Yanfang},
+  year = 2025,
+  month = may,
+  number = {arXiv:2505.15116},
+  eprint = {2505.15116},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2505.15116},
+  urldate = {2026-06-23},
+  abstract = {Graph-structured data pervades domains such as social networks, biological systems, knowledge graphs, and recommender systems. While foundation models have transformed natural language processing, vision, and multimodal learning through large-scale pretraining and generalization, extending these capabilities to graphs -- characterized by non-Euclidean structures and complex relational semantics -- poses unique challenges and opens new opportunities. To this end, Graph Foundation Models (GFMs) aim to bring scalable, general-purpose intelligence to structured data, enabling broad transfer across graph-centric tasks and domains. This survey provides a comprehensive overview of GFMs, unifying diverse efforts under a modular framework comprising three key components: backbone architectures, pretraining strategies, and adaptation mechanisms. We categorize GFMs by their generalization scope -- universal, task-specific, and domain-specific -- and review representative methods, key innovations, and theoretical insights within each category. Beyond methodology, we examine theoretical foundations including transferability and emergent capabilities, and highlight key challenges such as structural alignment, heterogeneity, scalability, and evaluation. Positioned at the intersection of graph learning and general-purpose AI, GFMs are poised to become foundational infrastructure for open-ended reasoning over structured data. This survey consolidates current progress and outlines future directions to guide research in this rapidly evolving field. Resources are available at https://github.com/Zehong-Wang/Awesome-Foundation-Models-on-Graphs.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Computer Science - Social and Information Networks},
+  file = {/home/mohamad/Documents/Zotero/Wang et al. - 2025 - Graph Foundation Models A Comprehensive Survey.pdf;/home/mohamad/Zotero/storage/VGPBFHHL/2505.html}
+}
+
+@misc{wenTorchslaPyTorchSparse,
+  title = {Torch-Sla: {{PyTorch Sparse Linear Algebra}} with {{GPU Acceleration}}},
+  shorttitle = {Torch-Sla},
+  author = {Wen, Shizheng, Mingyuan Chi},
+  journal = {torch-sla - PyTorch Sparse Solver},
+  urldate = {2026-07-20},
+  abstract = {PyTorch Sparse Linear Algebra library. Solve Ax=b with GPU acceleration via cuDSS. Full autograd support for differentiable sparse operations. pip install torch-sla.},
+  howpublished = {https://www.torchsla.com/index.html},
+  langid = {english},
+  file = {/home/mohamad/Zotero/storage/HSII5S33/index.html}
+}
+
+@article{wuComprehensiveSurveyGraph2021,
+  title = {A {{Comprehensive Survey}} on {{Graph Neural Networks}}},
+  author = {Wu, Zonghan and Pan, Shirui and Chen, Fengwen and Long, Guodong and Zhang, Chengqi and Yu, Philip S.},
+  year = 2021,
+  month = jan,
+  journal = {IEEE Transactions on Neural Networks and Learning Systems},
+  volume = {32},
+  number = {1},
+  eprint = {1901.00596},
+  primaryclass = {cs},
+  pages = {4--24},
+  issn = {2162-237X, 2162-2388},
+  doi = {10.1109/TNNLS.2020.2978386},
+  urldate = {2026-03-16},
+  abstract = {Deep learning has revolutionized many machine learning tasks in recent years, ranging from image classification and video processing to speech recognition and natural language understanding. The data in these tasks are typically represented in the Euclidean space. However, there is an increasing number of applications where data are generated from non-Euclidean domains and are represented as graphs with complex relationships and interdependency between objects. The complexity of graph data has imposed significant challenges on existing machine learning algorithms. Recently, many studies on extending deep learning approaches for graph data have emerged. In this survey, we provide a comprehensive overview of graph neural networks (GNNs) in data mining and machine learning fields. We propose a new taxonomy to divide the state-of-the-art graph neural networks into four categories, namely recurrent graph neural networks, convolutional graph neural networks, graph autoencoders, and spatial-temporal graph neural networks. We further discuss the applications of graph neural networks across various domains and summarize the open source codes, benchmark data sets, and model evaluation of graph neural networks. Finally, we propose potential research directions in this rapidly growing field.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Wu et al. - 2021 - A Comprehensive Survey on Graph Neural Networks.pdf;/home/mohamad/Zotero/storage/SPUI3D55/1901.html}
+}
+
+@article{yangGraphNeuralNetworks,
+  title = {Graph {{Neural Networks Inspired}} by {{Classical Iterative Algorithms}}},
+  author = {Yang, Yongyi and Liu, Tang and Wang, Yangkun and Zhou, Jinjing and Gan, Quan and Wei, Zhewei and Zhang, Zheng and Huang, Zengfeng and Wipf, David},
+  abstract = {Despite the recent success of graph neural networks (GNN), common architectures often exhibit significant limitations, including sensitivity to oversmoothing, long-range dependencies, and spurious edges, e.g., as can occur as a result of graph heterophily or adversarial attacks. To at least partially address these issues within a simple transparent framework, we consider a new family of GNN layers designed to mimic and integrate the update rules of two classical iterative algorithms, namely, proximal gradient descent and iterative reweighted least squares (IRLS). The former defines an extensible base GNN architecture that is immune to oversmoothing while nonetheless capturing long-range dependencies by allowing arbitrary propagation steps. In contrast, the latter produces a novel attention mechanism that is explicitly anchored to an underlying end-to-end energy function, contributing stability with respect to edge uncertainty. When combined we obtain an extremely simple yet robust model that we evaluate across disparate scenarios including standardized benchmarks, adversariallyperturbated graphs, graphs with heterophily, and graphs involving long-range dependencies. In doing so, we compare against SOTA GNN approaches that have been explicitly designed for the respective task, achieving competitive or superior node classification accuracy. Our code is available at this link. And for an extended version of this work, please see (Yang et al., 2021).},
+  langid = {english},
+  file = {/home/mohamad/Documents/Zotero/Yang et al. - Graph Neural Networks Inspired by Classical Iterative Algorithms.pdf}
+}
+
+@misc{yangLearningSparseApproximate2025,
+  title = {Learning {{Sparse Approximate Inverse Preconditioners}} for {{Conjugate Gradient Solvers}} on {{GPUs}}},
+  author = {Yang, Zherui and Li, Zhehao and Lyu, Kangbo and Li, Yixuan and Du, Tao and Liu, Ligang},
+  year = 2025,
+  month = oct,
+  number = {arXiv:2510.27517},
+  eprint = {2510.27517},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2510.27517},
+  urldate = {2026-07-07},
+  abstract = {The conjugate gradient solver (CG) is a prevalent method for solving symmetric and positive definite linear systems Ax=b, where effective preconditioners are crucial for fast convergence. Traditional preconditioners rely on prescribed algorithms to offer rigorous theoretical guarantees, while limiting their ability to exploit optimization from data. Existing learning-based methods often utilize Graph Neural Networks (GNNs) to improve the performance and speed up the construction. However, their reliance on incomplete factorization leads to significant challenges: the associated triangular solve hinders GPU parallelization in practice, and introduces long-range dependencies which are difficult for GNNs to model. To address these issues, we propose a learning-based method to generate GPU-friendly preconditioners, particularly using GNNs to construct Sparse Approximate Inverse (SPAI) preconditioners, which avoids triangular solves and requires only two matrix-vector products at each CG step. The locality of matrix-vector product is compatible with the local propagation mechanism of GNNs. The flexibility of GNNs also allows our approach to be applied in a wide range of scenarios. Furthermore, we introduce a statistics-based scale-invariant loss function. Its design matches CG's property that the convergence rate depends on the condition number, rather than the absolute scale of A, leading to improved performance of the learned preconditioner. Evaluations on three PDE-derived datasets and one synthetic dataset demonstrate that our method outperforms standard preconditioners (Diagonal, IC, and traditional SPAI) and previous learning-based preconditioners on GPUs. We reduce solution time on GPUs by 40\%-53\% (68\%-113\% faster), along with better condition numbers and superior generalization performance. Source code available at https://github.com/Adversarr/LearningSparsePreconditioner4GPU},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Mathematics - Numerical Analysis},
+  file = {/home/mohamad/Documents/Zotero/Yang et al. - 2025 - Learning Sparse Approximate Inverse Preconditioners for Conjugate Gradient Solvers on GPUs.pdf;/home/mohamad/Zotero/storage/N2T5TXDP/2510.html}
+}
+
+@misc{yingTransformersReallyPerform2021a,
+  title = {Do {{Transformers Really Perform Bad}} for {{Graph Representation}}?},
+  author = {Ying, Chengxuan and Cai, Tianle and Luo, Shengjie and Zheng, Shuxin and Ke, Guolin and He, Di and Shen, Yanming and Liu, Tie-Yan},
+  year = 2021,
+  month = nov,
+  number = {arXiv:2106.05234},
+  eprint = {2106.05234},
+  primaryclass = {cs.LG},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2106.05234},
+  urldate = {2026-08-12},
+  abstract = {The Transformer architecture has become a dominant choice in many domains, such as natural language processing and computer vision. Yet, it has not achieved competitive performance on popular leaderboards of graph-level prediction compared to mainstream GNN variants. Therefore, it remains a mystery how Transformers could perform well for graph representation learning. In this paper, we solve this mystery by presenting Graphormer, which is built upon the standard Transformer architecture, and could attain excellent results on a broad range of graph representation learning tasks, especially on the recent OGB Large-Scale Challenge. Our key insight to utilizing Transformer in the graph is the necessity of effectively encoding the structural information of a graph into the model. To this end, we propose several simple yet effective structural encoding methods to help Graphormer better model graph-structured data. Besides, we mathematically characterize the expressive power of Graphormer and exhibit that with our ways of encoding the structural information of graphs, many popular GNN variants could be covered as the special cases of Graphormer.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Ying et al. - 2021 - Do Transformers Really Perform Bad for Graph Representation 1.pdf;/home/mohamad/Zotero/storage/MRPB79KQ/2106.html}
+}
+
+@inproceedings{yuSpatioTemporalGraphConvolutional2018,
+  title = {Spatio-{{Temporal Graph Convolutional Networks}}: {{A Deep Learning Framework}} for {{Traffic Forecasting}}},
+  shorttitle = {Spatio-{{Temporal Graph Convolutional Networks}}},
+  booktitle = {Proceedings of the {{Twenty-Seventh International Joint Conference}} on {{Artificial Intelligence}}},
+  author = {Yu, Bing and Yin, Haoteng and Zhu, Zhanxing},
+  year = 2018,
+  month = jul,
+  eprint = {1709.04875},
+  primaryclass = {cs.LG},
+  pages = {3634--3640},
+  doi = {10.24963/ijcai.2018/505},
+  urldate = {2026-05-16},
+  abstract = {Timely accurate traffic forecast is crucial for urban traffic control and guidance. Due to the high nonlinearity and complexity of traffic flow, traditional methods cannot satisfy the requirements of mid-and-long term prediction tasks and often neglect spatial and temporal dependencies. In this paper, we propose a novel deep learning framework, Spatio-Temporal Graph Convolutional Networks (STGCN), to tackle the time series prediction problem in traffic domain. Instead of applying regular convolutional and recurrent units, we formulate the problem on graphs and build the model with complete convolutional structures, which enable much faster training speed with fewer parameters. Experiments show that our model STGCN effectively captures comprehensive spatio-temporal correlations through modeling multi-scale traffic networks and consistently outperforms state-of-the-art baselines on various real-world traffic datasets.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/home/mohamad/Documents/Zotero/Yu et al. - 2018 - Spatio-Temporal Graph Convolutional Networks A Deep Learning Framework for Traffic Forecasting 1.pdf;/home/mohamad/Zotero/storage/SMPYFTV8/1709.html}
+}

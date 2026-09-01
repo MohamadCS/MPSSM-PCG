@@ -1,0 +1,505 @@
+\appendix
+
+\section{Interpretation of $(I + \alpha L)^{-1}$}\label{sec:operator_interpretation}
+Throughout the paper we have used $K^{-1} = (I + \alpha L)^{-1}$ as our
+long-range propgation operator. We now show mathatically that $K^{-1}$ indeed
+does multi-hop propgation of the normalized adjecacny matrix $\hat A$.
+
+Notice that $K = I + \alpha L = (1 + \alpha)I - \alpha \hat A$ and so using Neumann expansion
+\begin{equation}
+    K^{-1} = \frac{1}{1 + \alpha}\left(I - \frac{\alpha}{1 + \alpha} \hat A \right)^{-1}=  \frac{1}{1 + \alpha}\sum_{k = 0}^{\infty}\left(\frac{\alpha}{1 + \alpha}\right)^{k} \hat A^k
+\end{equation}
+
+The usage of Neumann expansion is valid since for $\alpha > 0$
+\begin{equation}
+    \rho\left(\frac{\alpha}{1 + \alpha} \hat A \right) = \frac{\alpha}{1 + \alpha} \rho\left( \hat A \right) <  \frac{\alpha}{1 + \alpha} < 1
+\end{equation}
+
+A conventional GCN layer propgates using $\hat A$
+\begin{equation*}
+    H^{(l + 1)} = \sigma(\hat A H^{(l)} W^{(l)})
+\end{equation*}
+
+This only does 1-hop propagation.
+
+Replacing $\hat A$ with $K^{-1}$ is equivilant to
+
+\begin{equation*}
+    H^{(l + 1)} = \sigma(K^{-1}_ H^{(l)} W^{(l)}) \approx \sigma\left(\frac{1}{1 + \alpha}\sum_{k = 0}^{\infty}\left(\frac{\alpha}{1 + \alpha}\right)^{k} \hat A^k H^{(l)} W^{(l)}\right)
+\end{equation*}
+
+where $\alpha$ controlls the effective propagation length.
+
+\section{Additional Method Details}
+\subsection{PCG Algorithm}
+\begin{algorithm}[H]
+    \capation{Preconditioned Conjugate Gradient}
+    \label{alg:pcg}
+    \begin{algorithmic}[1]
+        \Require{SPD Matrix $A$, RHS $b$, preconditioner $P$, initial guess $x_0$, tolerance $\epsilon$, maximum iterations $K$}
+
+        \State $x \gets x_0$
+        \State $r \gets b - Ax$
+        \State $z \gets P(r)$
+        \State $p \gets z$
+
+        \For{$k = 0, \dots, K - 1$}
+        \State $q \gets A p$
+
+        \State $r' \gets \langle r,z \rangle$
+
+        \State $\alpha \gets \frac{r'}{\langle p,q\rangle}$
+
+        \State $x \gets x + \alpha p$
+        \State $r \gets r - \alpha q$
+
+        \If{$\frac{\lVert r\rVert_2}{\lVert b\rVert_2} < \epsilon $}
+        \State \Return $x$
+        \EndIf
+
+        \State $z \gets P(r)$
+        \State $\beta \gets \frac{\langle r, z\rangle}{r'}$
+
+        \State $p \gets z + \beta p$
+
+        \EndFor
+
+        \State \Return $x$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{\texttt{MPSSM-PCG} implementation}
+% def forward(self, U,S):
+%     # X = torch.zeros(U.shape[0], self.W_supp.out_features, dtype= U.dtype, device = U.device)
+%     X = torch.zeros(U.shape[0], self.W.out_features, dtype= U.dtype, device = U.device)
+%
+%     UB = self.B(U)
+%
+%
+%     for _ in range(self.num_steps):
+%         # X = self.W_supp(S_supp @ X) + self.W_val(S_val @ X) + UB
+%          X =  self.W(S @ X) + UB
+%
+%     return self.mlp(X)
+
+\begin{algorithm}[H]
+    \capation{MPSSM Block}
+    \label{alg:mpssm_block}
+    \begin{algorithmic}[1]
+        \Require{Propgation matrix $S$, Matrix Features $U$, SSM steps $T$}
+
+        \State $X_0 \gets \mathbf{0}$
+        \For{$s = 0,\dots T -1$}
+        \State $X_{s + 1} \gets SX_{s}W + UB$
+        \EndFor
+
+        \State \Return $\texttt{MLP}(X_T)$
+    \end{algorithmic}
+\end{algorithm}
+
+% H = self.norms[0](self.in_block(U,S))
+%
+%
+%
+% for i, block in enumerate(self.blocks):
+%     H_t = block(H,S) 
+%     H_t = F.dropout(H_t, p = self.dropout, training=self.training)
+%     H = self.norms[i + 1](H + H_t)
+%
+% return H
+
+\begin{algorithm}[H]
+    \capation{MPSSM}
+    \label{alg:mpssm}
+    \begin{algorithmic}[1]
+        \Require{Propgation matrix $S$, Matrix Features $U$, SSM steps $T$, SSM Blocks $B$, Dropout $p$}
+        \State $H_0 \gets \texttt{GraphNorm}(\texttt{MPSSM}_0(U,S))$
+
+        \For{$b = 0, \dots ,B - 1$}
+        \State $H_{b + 1} \gets \texttt{MPSSM}_b(H_b,S)$
+        \State $H_{b + 1} \gets \texttt{GraphNorm}(\texttt{Dropout}_p(H_{b}))$
+        \EndFor
+
+        \State \Return $H_{B}$
+
+    \end{algorithmic}
+\end{algorithm}
+
+% c = 0.1
+%
+% S= graph_shift(K)
+% # S_supp = graph_shift(K)
+% # S_val = weighted_graph_shift(K)
+%
+% features, scale = matrix_node_features(K)
+%
+% H = self.mpssm(S, features)
+%
+% src, dst = lower_edge_pattern(K)
+% L = torch.zeros_like(K)
+%
+% if src.numel() > 0:
+%     edge_val = (K[src, dst] / scale).unsqueeze(-1)
+%
+%     edge_features = torch.cat(
+%             [
+%                 H[src],
+%                 H[dst],
+%                 edge_val
+%             ],
+%             dim = -1
+%     )
+%
+%     values = self.factor_decoder(edge_features).squeeze(-1)
+%
+%     L[src,dst] = values
+%
+% diag_delta = self.diag_decoder(H).squeeze(-1)
+% L_diag =  torch.exp(c * diag_delta)
+%
+% L = L + torch.diag(L_diag)
+
+\begin{algorithm}[H]
+    \capation{MPSSM-PCG}
+    \label{alg:mpssm_pcg}
+    \begin{algorithmic}[1]
+        \Require{System $K$}
+        \State $S \gets D^{-1/2}A_SD^{-1/2}$ \Comment{$A_s$ is the sparisty pattern (Eq.\ref{eq:sparsity_pattern}) of $K$ }
+        \State $U \gets \texttt{matrix\_node\_features}(K)$ \Comment{$U = [u_1,\dots,u_n]^\top$ when $u_i$ is defined as in Eq.\ref{eq:system_feature_vec}}
+        \State $H \gets \texttt{MPSSM}(S,U)$
+        \State $E_0 \gets \{(i,j) | i > j, K_{ij} \neq 0\}$
+        \State $L_\theta \gets \mathbf{0}$
+        \ForAll{$(i,j) \in E_{0}$}
+        \State $e_{ij}\gets [H_i || H_j || K_{ij} / s]$
+        \State $(L_\theta)_{ij} = \texttt{MLP}_{\text{edge}}(e_{ij})$
+        \EndFor
+
+        \For{$i = 1,\dots,n$}
+        \State $\delta_i \gets \texttt{MLP}_{\text{diag}}(H_i)$
+        \State $(L_\theta)_{ii} \gets e^{c\delta_i}$ \Comment{In our implementation $c = 0.1$}
+        \EndFor
+
+        \State \Return $L_\theta$
+    \end{algorithmic}
+\end{algorithm}
+
+% def forward(self, X : torch.Tensor, A_norm : torch.Tensor = None, preconditioner : Preconditioner = None):
+%     if A_norm is None and preconditioner is None:
+%         raise ValueError(f"You need a preconditioner or a shift operator")
+%
+%     H = self.encoder(X) 
+%
+%
+%     for layer,norm in zip(self.layers, self.norms):
+%
+%         residual = H
+%
+%         if A_norm is not None:
+%             H = A_norm @ H
+%         else:
+%             H = preconditioner.apply(H)  
+%
+%         H = layer(H)
+%         H = norm(H)
+%         H = F.relu(H)
+%
+%         H = F.dropout(H, p = self.dropout,training=self.training)
+%
+%         H = H + residual
+%
+%
+%     return self.out(H)
+%
+
+% def apply(self, r):
+%     is_vec = r.dim() == 1
+%
+%     if is_vec:
+%         r = r.unsqueeze(-1)
+%
+%
+%     y = torch.linalg.solve_triangular(self.L , r, upper = False)
+%     y = torch.linalg.solve_triangular(self.L.T , y, upper = True)
+%
+%     if is_vec:
+%         y = y.squeeze(-1)
+%
+%
+%     return y
+
+\begin{algorithm}[H]
+    \capation{Apply MPSSM-PCG Preconditioner}
+    \label{alg:mpssm_pcg_preconditioner}
+    \begin{algorithmic}[1]
+        \Require{Sparse Factor $L$, Residual $r$}
+
+        \State $y \gets \texttt{solve\_triangular}(L, r, \text{upper} = F)$ \Comment{Pytorch's \texttt{torch.linalg.solve\_triangular}}
+        \State $z \gets \texttt{solve\_triangular}(L, y, \text{upper} = T)$
+        \State \Return $z$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{GCN Architicture}
+\begin{algorithm}[H]
+    \capation{GCN For ECHO-SSSP}
+    \label{alg:gcn}
+    \begin{algorithmic}[1]
+        \Require{Normalized adjecacny $\hat A$, Node Embeddings $X$, Layers $L$, Dropout $p$}
+        $H_0 \gets \texttt{MLP}_{\text{encoder}}(X)$
+        \For{$i = 0,\dots,L - 1$}
+        \State $R_t\gets H_t$
+        \State $H_t \gets \texttt{ReLU}(\texttt{LayerNorm}(\hat AH_tW_t))$
+        \State $H_t \gets \texttt{Dropout}_p(H_{t}) + R_t$
+        \EndFor
+
+        \State \Return $\texttt{MLP}_{\text{out}}(H_L)$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \capation{PGCN For ECHO-SSSP}
+    \label{alg:pgcn}
+    \begin{algorithmic}[1]
+        \Require{Sparse Factor $L_\theta$, Node Embeddings $X$, Layers $L$, Dropout $p$}
+        $H_0 \gets \texttt{MLP}_{\text{encoder}}(X)$
+        \For{$i = 0,\dots,L - 1$}
+        \State $R_t\gets H_t$
+        \State $H_t \gets \texttt{ReLU}(\texttt{LayerNorm}(\texttt{apply}(L_\theta,H_t)W_t))$ \Comment{When \texttt{apply} as in alg.\ref{alg:mpssm_pcg_preconditioner}}
+        \State $H_t \gets \texttt{Dropout}_p(H_{t}) + R_t$
+        \EndFor
+
+        \State \Return $\texttt{MLP}_{\text{out}}(H_L)$
+    \end{algorithmic}
+\end{algorithm}
+
+\section{Evaluation}
+\subsection{Hardware Configuration}
+ We run all the tests on Ryzen 9600X CPU, 32GB of RAM and an AMD Radeon 9070 XT GPU with 16 GB of VRAM.
+
+\subsection{Expirements Hyperparameters}
+\begin{table}[H]
+    \centering
+    \label{tbl:hyperparams_mpssmpcg}
+    \caption{Hyperparameters used in MPSSM-PCG ECHO-SSSP/Peptides-struct preconditioning expirement}
+    \small
+    \begin{tabular}{c c}
+        Hyperparameter       & Value                \\
+        \hline
+        Optimizer            & Adam                 \\
+        Learning Rate        & $10^{-3}$            \\
+        Train Epochs         & 50                   \\
+        Checkpoint Selection & Best Validation loss \\
+        Hidden Dimesntion    & 16                   \\
+        Blocks               & 2                    \\
+        Steps                & 4                    \\
+        Normalization        & \texttt{GraphNorm}   \\
+        Dropout              & 0                    \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{NeuralIF Hyperparameters ECHO-SSSP/Peptides-struct preconditioning expirement}
+    \small
+    \begin{tabular}{c c}
+        Hyperparameter              & Value                \\
+        \hline
+        Optimizer                   & Adam                 \\
+        Learning Rate               & $10^{-3}$            \\
+        Train Epochs                & 50                   \\
+        Checkpoint Selection        & Best Validation loss \\
+        message\_passing\_steps     & 4                    \\
+        global\_features Dimesntion & 0                    \\
+        latent\_size                & 8                    \\
+        skip\_connections           & True                 \\
+        activation                  & ReLU                 \\
+        aggregate                   & None                 \\
+        decode\_nodes               & False                \\
+        normalize\_diag             & False                \\
+        graph\_norm                 & True                 \\
+        two\_hop                    & False                \\
+        edge\_features              & 1
+    \end{tabular}
+\end{table}
+
+This configuration is the closest configuation to what the authors of NeuralIF
+\cite{hausnerNeuralIncompleteFactorization2024} chose. We just used 4 message
+passing steps instead of 4 to have a close parameter count to ours.
+
+\begin{table}[H]
+    \centering
+    \caption{GCN hyperparameters for ECHO-SSSP long-range propagation expirements}
+    \small
+    \begin{tabular}{c c}
+        Hyperparameter       & Value                \\
+        \hline
+        Optimizer            & Adam                 \\
+        Learning Rate        & $10^{-5}$            \\
+        Train Epochs         & 50                   \\
+        Checkpoint Selection & Best Validation loss \\
+        Hidden Dimesntion    & 16                   \\
+        Blocks               & 2                    \\
+        Steps                & 4                    \\
+        Normalization        & \texttt{GraphNorm}   \\
+        Dropout              & 0                    \\
+    \end{tabular}
+\end{table}
+
+We used identical hyperparameters to \ref{tbl:hyperparams_mpssmpcg} in our
+long-range propagation evalutaion apart from a learning rate of $10^{-4}$ and
+we trained for 30 epochs instead of 50.
+
+% global_features=0,
+% latent_size=8,
+%
+% augment_nodes=True,
+%
+% message_passing_steps=4,
+%
+% skip_connections=True,
+% activation="relu",
+% aggregate=None,
+% decode_nodes=False,
+%
+% normalize_diag=False,
+% graph_norm=True,
+% two_hop=False,
+% edge_features=1,
+
+\begin{table}[H]
+    \centering
+    \caption{Hyperparameters used in MPSSM-PCG ECHO-SSSP expirement}
+    \small
+    \begin{tabular}{c c}
+        Hyperparameter       & Value                \\
+        \hline
+        Optimizer            & Adam                 \\
+        Learning Rate        & $10^{-5}$            \\
+        Train Epochs         & 300                  \\
+        Checkpoint Selection & Best Validation loss \\
+        Hidden Dimenstion    & 384                  \\
+        Normalization        & \texttt{LayerNorm}   \\
+        Dropout              & 0.1                  \\
+    \end{tabular}
+\end{table}
+
+GCN layers used in the expirements are stated in each table.
+
+The total parameter count of $\texttt{MPSSM-PCG}$ is 2594 while $\texttt{NeuralIF}$ is 2488.
+
+\subsection{Metrices}
+\paragraph{Setup time}\label{par:setup_time} Measures the cost
+of contructing the preconditioner for a unseen system $K$. For
+$\texttt{MPSSM-PCG}$, this consists of constructing the matrix representation,
+running the MPSSM encoder and decoding $L_\theta$. Simliarly, for
+\texttt{NeuralIF} this is the forward pass for constructing $L_\theta$.
+Preconditiong training is not part of the setup time.
+
+Since the tested preconditioners only rely on $K$, for each graph we sample $N_{rhs} = 5$ random RHS and reuse the computed
+preconditioner to solve the 5 systems, so the actual setup time presented in tables is
+\begin{equation}
+    t_{setup} = \frac{t_{\text{preconditioner construction}}}{N_{rhs}}
+\end{equation}
+
+\paragraph{Solve Time}\label{par:solve_time} Measures the execution time of PCG
+\ref{alg:pcg} and the applications of the preconditioner. MPSSM-PCG and NeuralIF
+preconditioners are applied using \ref{alg:mpssm_pcg_preconditioner}.
+
+\paragraph{Total Time}\label{par:total_time} The sum of the setup time and solve time.
+
+\paragraph{Mean Squared Error} For a
+graph $G$ with predictions $\mathbf{\hat y}$  and targets $\mathbf{y}$ containing $N$ targets
+\begin{equation}\label{eq:mse}
+    \text{MSE}(G) =  \frac{1}{N}\sum_{i = 1}^{N} \ (y_i - \hat y_i)^2
+\end{equation}
+
+for a mini batch $B$
+
+\begin{equation}
+    \text{MSE}(B) = \frac{1}{|B|}\sum_{G \in B} \text{MSE}(G)
+\end{equation}
+
+\paragraph{Mean Absolute Error}
+\begin{equation}\label{eq:mae}
+    \text{MAE} = \frac{\sum_G \sum_{v\in V_G} |y_v - \hat y_v|}{\sum_{G} |V_G|}
+\end{equation}
+
+During training, the training loss gives equal weights to each graph
+(regardelss of the number of nodes). In evaluation MAE give equal weight to
+each target node.
+
+\subsection{Additional Expirements}
+In addition to Tabel \ref{tbl:echo_sssp_preconditioning_time} we include both the relative residual
+\begin{equation}
+    \frac{
+        \lVert b - K\hat x\rVert_2
+    } {
+        \lVert b\rVert_2
+    }
+\end{equation}
+
+and the relative solution error
+
+\begin{equation}
+    \frac{
+        \lVert x - \hat x\rVert_2
+    } {
+        \lVert x\rVert_2
+    }
+\end{equation}
+
+\begin{table}[H]
+    \centering
+    \caption{
+        Preconditioning performence on ECHO-SSSP graph systems. Mehods are
+        evaluated on their PCG performence on unseen test system. Results are
+        averaged over three seeds $\{0,1,2\}$.
+    }
+    \label{tbl:echo_sssp_preconditioning_err}
+    \begin{tabular}{c c c}
+        Method           & Rel. Error  $\downarrow$                  & Rel. Reisdual  $\downarrow$               \\
+        \hline
+        Identity         & $2.094\cdot10^{-6}\pm2.305\cdot{10^{-9}}$ & $7.410\cdot10^{-7}\pm1.065\cdot{10^{-9}}$ \\
+        Jacobi           & $2.112\cdot10^{-6}\pm7.335\cdot{10^{-9}}$ & $7.348\cdot10^{-7}\pm1.985\cdot{10^{-9}}$ \\
+        NeuralIF         & $1.286\cdot10^{-6}\pm6.873\cdot{10^{-9}}$ & $4.725\cdot10^{-7}\pm1.534\cdot{10^{-9}}$ \\
+        MPSSM-PCG (ours) & $1.289\cdot10^{-6}\pm1.076\cdot{10^{-8}}$ & $4.725\cdot10^{-7}\pm2.207\cdot{10^{-9}}$ \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \caption{
+        Preconditioning performence on peptides-struct graph systems $K = I +
+            8L$, with 2000/500/500 split. Mehods are evaluated on their PCG
+        performence on unseen test system. Results are averaged over three
+        seeds $\{0,1,2\}$.
+    }
+    \centering
+    \label{tbl:peptides_struct_preconditioning_time}
+    \begin{tabular}{c c c c c c}
+        Method   & Conv. \%   $\uparrow$ & PCG Iteration $\downarrow$ & Setup Time  $\downarrow$ & Solve Time $\downarrow$ & Total Time   $\downarrow$ \\
+        \hline
+        Identity & $100.0\pm0.0$         & $21.90\pm0.00$             & $0.001\pm0.000 $         & $2.244\pm0.002 $        & $2.245\pm0.002$           \\
+        Jacobi   & $100.0\pm0.0$         & $21.64\pm0.01$             & $0.009\pm0.002 $         & $2.266\pm0.004 $        & $2.275\pm0.006$           \\
+        NeuralIF & $100.0\pm0.0$         & $9.00\pm0.01$              & $0.732\pm0.005 $         & $1.947\pm0.064 $        & $2.679\pm0.062$           \\
+        MPSSMPCG & $100.0\pm0.0$         & $9.23\pm0.02$              & $0.299\pm0.004 $         & $2.015\pm0.053 $        & $2.314\pm0.052$           \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{
+        Preconditioning performence on peptides-struct graph systems with
+        2000/500/500 split. Mehods are evaluated on their PCG performence on
+        unseen test system. Results are averaged over three seeds $\{0,1,2\}$.
+    }
+    \label{tbl:peptides_struct_preconditioning_err}
+    \begin{tabular}{c c c}
+        Method   & Rel. Error  $\downarrow$                  & Rel. Reisdual  $\downarrow$               \\
+        \hline
+        Identity & $2.220\cdot 10^{-6}\pm5.722\cdot 10^{-9}$ & $7.815\cdot 10^{-7}\pm1.628\cdot 10^{-9}$ \\
+        Jacobi   & $2.031\cdot 10^{-6}\pm3.599\cdot 10^{-9}$ & $6.932\cdot 10^{-7}\pm1.051\cdot 10^{-9}$ \\
+        NeuralIF & $1.679\cdot 10^{-6}\pm8.283\cdot 10^{-9}$ & $6.393\cdot 10^{-7}\pm4.363\cdot 10^{-9}$ \\
+        MPSSMPCG & $1.602\cdot 10^{-6}\pm2.746\cdot 10^{-8}$ & $5.961\cdot 10^{-7}\pm6.647\cdot 10^{-9}$ \\
+    \end{tabular}
+\end{table}
+

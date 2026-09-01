@@ -1,0 +1,21 @@
+\section{Conclusion}
+Our proposed method \texttt{MPSSM-PCG} showed promising for learning
+preconditioners for graph learning dataset. Specifically it achived close
+performence to existing learned preconditionerd with less setup time. In
+addition, preconditioning $I + \alpha L$ showed great improvement over regular
+normalized adjacency matrix, such that it achives better performence while
+using lower GCN layers.
+
+\subsection{Limitations}
+Main limitation comes from our limited computation budget. First, the
+multilayer long-range propgation in table \ref{tbl:echo_sssp_layers} was tested
+using one $\alpha$ value. Second, we only tested the operator $I + \alpha L$.
+Long-range operators like $e^{-tL},L ^\dagger$ might be usefull for testing
+other datasets. Third, $\texttt{MPSSM-PCG}$ was designed to work
+specifically for graph structures, and was tested on existing graphs of
+different graph learning datasets.
+
+
+
+
+

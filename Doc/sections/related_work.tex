@@ -1,0 +1,88 @@
+\section{Related Work}
+\subsection{Long Range Propagation}
+
+\paragraph{Attention Based Method}
+Transformers \cite{vaswaniAttentionAllYou2023} model the depenencies between
+feature sequence using self-attention mechansim. Graph nodes can be represented
+as a seqeunce of tokens, such that the computed attention matrix is treated
+like a new weighted adjacency matrix. The problem with this approach is that
+the transformer is not aware of the graph structure. Works like Graphormer
+\cite{yingTransformersReallyPerform2021a} use positional and structural
+embeddings to inject the graph structure. GraphGPS
+\cite{rampasekRecipeGeneralPowerful2023} computes global attention to learn
+depenencies between distant nodes, and local MPNN layer to learn depenencies
+between local nodes.
+
+\paragraph{Implicit GNN}
+\cite{bakerImplicitGraphNeural,bakerMonotoneOperatorTheoryInspired2024}
+IGNN achive long-range propgation by solving the equalibrium equation $X =
+    f_\theta(X,A)$, where $A$ is the   adjacency matrix and $X$ are the node
+signals. For intance, the original IGNN model \cite{guImplicitGraphNeural2021}
+finds $X$ such that $X = \sigma(WXA + b)$. They solve it by repeatadly applying
+the equation using the same learned weight matrices until convergance, allowing
+information to propagate through long distances without the need for deep
+propagation.
+
+\subsection{Learning Preconditioners}
+\cite{liLearningPreconditionerConjugate2023} learnes a preconditioner $P =
+f_\theta(A,b)$ for the discritzed PDE linear system $Ax = b$. They treat $A$ as
+an adjacency matrix, having $A_{ij}$ as an edge feature and $b_{i}$ as a node
+feature. They encode the graph into a hidden represnentation using MLP encoder,
+then they follow it by multiple MPNN layers and pass into a decoder that
+predicts a matrix $M$ that is used to construct the preconditioner $P$. In
+order to gaurantee symmetry they learn $LL^T$.
+
+\cite{boothNeuralAccelerationIncomplete} contructs a two-layer sparse linear
+neural network whose weights are the entries of the incomplete Cholesky factor
+$L$. The sparisty pattern is fixed in advance. The first layer applies $L^\top$
+while the second applies $L$.
+
+\cite{hausnerNeuralIncompleteFactorization2024} learns a lower-triagonal matrix
+$L_\theta(A)$ with strictly positive diagonal, where the final preconditioner
+becomes $L_\theta(A)L^\top_\theta(A)$. They do that by firstly propagating
+information using MPNN layers of the lower-triagonal part of A, then they do
+the same with the upper triagonal part of A. Finally the edge embeddings become
+the entries of a sparse matrix triagonal factor.
+
+% \cite{hausnerLearningIncompleteFactorization} learns a preconditioner for a
+% non-singluar matrix $A$. Their approach differs from previous approcahes in
+% that they do not require SPD or symmetic matrix. They learn a preconditioner of
+% the form $P = LU$. They do that by using multiple message passing layers, with an
+% additional edge feature to tell if the edge should belong to the upper or
+% lower triangle matrix.
+%
+\cite{chenGraphNeuralPreconditioners2025} uses a GCN based method for learning
+a network $M$ that acts as an approximation to the inverse. They do that by
+first scaling the input vector $b$ and pass it into an encoder for a hidden
+represnentation, then they pass it into multiple GCN layers, decode it back to
+its original dimenstion and rescale it.
+
+Most methods we've looked at directly learn a preconditioner.
+\cite{trifonovLearningLinearAlgebra2025} proposed to use GNNs to learn a
+correction for the given matrix. Given a lower triagonal IC factor $L$ of $A$,
+their goal is to learn $L(\theta) = L + \alpha\ \mathrm{GNN} (\theta,L)$. They
+use simple encodig, propagation using MPNN and decoding back.
+
+% \cite{sapplConvolutionalNeuralNetworkdriven2026} used a CNN architcture in
+% order to learn a lower triagonal matrix $L$ for a preconditioner $P = LL^T$.
+%
+% Algebric multigrids (AMG) are also used for learning preconditioners. AMG
+% contructs a hierarchy of coarse represnentations directly from the given
+% matrix. \cite{luzLearningAlgebraicMultigrid2020} uses GNN based architcture to
+% learn the prolongation weights between the coarse and fine levels.
+% \cite{liNeuralPreconditioningOperator2025} combined algebric multigrid
+% principles with a transformer based architicture to learn a multi-scale
+% preconditioning operator.
+%
+% \cite{brardaFactoredSparseApproximate2026} learns a fixed pattern sparse
+% approximation inverse  $M = GG^\top$. The differnece with from other methods is
+% that they minimize spectral objectives of $M$ rather than Frobenius norm.
+%
+%
+% Generative methods where used by \cite{liGenerativeModelingSparse2024}. Given
+% an SPD matrix $A$, they encode it using a GAT based encoder, while also passing
+% the exact inverse $A^{-1}$ into a CNN encoder. The outputs are then
+% concatanated and mapped into the latent space. A decoder then samples from the
+% latent space and generates a sparse matrix $R$ that behaves like the inverse
+% factor, meaning that $R^\top A R \approx I$.
+

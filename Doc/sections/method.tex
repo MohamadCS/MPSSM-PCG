@@ -1,0 +1,157 @@
+\section{Method}
+Given the system $K = I + \alpha L$, we define the sparsity pattern of $K$ as
+$(A_s)_{ij} = \mathbb{I}[K_{ij} \neq 0]$, $(D_s)_{ii} = \sum_{j}(A_s)_{ij}$,
+and the propagation operator
+\begin{equation*}\label{eq:sparsity_pattern_matrix}
+    S = D_s^{-1/2} A_s D_s^{-1/2}
+\end{equation*}
+
+For each matrix row $i$ we construct the feature vector
+\begin{equation}\label{eq:system_feature_vec}
+    u_i = \left[\frac{K_{ii}}{s}, \frac{\sum_{i \neq j}|K_{ij}|}{s}, \frac{d_i}{\bar d}, p_i\right]
+\end{equation}
+
+where $s = \frac{1}{n} \sum_{i = 1}^n |K_{ii}|$ and $\bar d = \frac{1}{n}\sum_{i = 1}^n
+    d_i$ when $d_i$ is the number of nonzero off-diagonal entries in row $i$ and
+$p_i\in [-1,1]$ is the normalzied row position.
+
+Then we use it to constrcut the matrix features matrix $U = [u_1,\dots,
+            u_n]^\top \in \mathbb{R}^{n \times 4}$.
+
+
+\paragraph{MPSSM} We use MPSSM \cite{ceniMessagePassingStateSpaceModels2025} as
+our backbone for learning the matrix $L_\theta$ as it gives a natural way of
+seperating $S$ and $U$ . For an MPSSM block, we initialzie the hidden state as
+$X_0 = 0$, and update it for $T$ recurrent step according to
+
+\begin{equation*}
+    X_{t + 1} = SX_{t}W + UB \qquad t = 0,\dots,T-1
+\end{equation*}
+
+The same input projection $UB$ is injected at every recurrent step and $W$ is
+shared across all steps of the block. After the final recurrence we apply
+
+\begin{equation}
+    Z = \texttt{MLP}(X_T)
+\end{equation}
+
+We stack $B$ MPSSM blocks. The first block operates on $U$
+\begin{equation}
+    H^{(1)} = \texttt{GraphNorm}(\texttt{MPSSM}_1(S,U))
+\end{equation}
+
+and
+\begin{equation}
+    H^{(l)} = \texttt{GraphNorm}(H^{(l - 1)} + \texttt{MPSSM}^{(l - 1)}(S,H^{(l - 1)}))
+\end{equation}
+
+This results in $H = H^{(B)}$ which will be used to predict $L_\theta$.
+
+\paragraph{Incomplete Factorization Prediction} Similar to
+\cite{hausnerNeuralIncompleteFactorization2024} we restrict the lower-triagonal
+part of $L_\theta$ (excluding the diagnoal) to the IC(0) sparisty pattern
+
+\begin{equation}\label{eq:sparsity_pattern}
+    E_0 = \{(i,j) | i > j, K_{ij} \neq 0\}
+\end{equation}
+
+For every $(i,j) \in E_0$ we construct the edge feature
+
+\begin{equation}
+    e_{ij} = \left [ H_i || H_j || \frac{K_{ij}}{s}\right ]
+\end{equation}
+
+and predict
+
+\begin{equation}
+    (L_\theta)_{ij} = \texttt{MLP}_{\mathrm{edge}}(e_{ij})
+\end{equation}
+
+We predict the diagonal independly. To guarantee the the diagonal is postive, we use the transformation
+\begin{equation}
+    (L_\theta)_{ii} = \exp{(c\cdot \texttt{MLP}_{\mathrm{diag}}(H_i))}
+\end{equation}
+
+where $c$ is a constant\footnote{We found that having an indepenent decoder for the
+    diagonal is more numerically stable}.
+
+Now since $L_\theta$ is a lower triagonal matrix with strictly postivei
+diagonal we get $M_\theta = L_\theta L^\top_\theta$ is a positive definite
+matrix and hence invertable and can be used for PCG.
+
+\paragraph{Training} Our training method is similar to
+\cite{hausnerNeuralIncompleteFactorization2024}. Instead of directly minimizing
+the objective $\lVert K - L_\theta L^\top_\theta \rVert^2_F$, which can be
+quite expensive as the matrix dimesntions increase, we sample $k$
+random vectors $x_i \sim \mathcal N(0,I)$, construct the matrix $X =
+        [x_1,\dots,x_k]$ and minimize
+
+\begin{equation}\label{eq:training_loss}
+    \mathcal L =
+    \frac{
+        \lVert KX - L_\theta L^\top_\theta X \rVert^2_F
+    }{
+        \lVert KX \rVert^2_F
+    }
+\end{equation}
+
+\paragraph{Preconditioned Graph Propagation} We achive long-range propgation by
+using the global operator $K^{-1} =(I + \alpha L)^{-1}$ as our propgation
+operator. We firstly approximate $K$ using \texttt{MPSSM-PCG} and obtain the
+incomplete factorization $M_\theta = L_\theta L^\top_\theta \approx K$, then define the propgation
+opertor as $P_\theta = M^{-1}_\theta$ and plug it into a conventional GCN layer
+
+\begin{equation*}
+    H^{(l + 1)} = \sigma(P_\theta H^{(l)} W^{(l)})
+\end{equation*}
+
+Refer to appendix (\ref{alg:gcn}) for GCN architicture details
+
+
+% Our model predicts the incomplete Cholesky Factorization with sparisty pattern of IC(0) for a given operator
+% $A$ with the sparisty pattern $IC(0)$ similar to
+% \cite{hausnerNeuralIncompleteFactorization2024}. Given an system matrix $K$,
+% our model predicts $L_\theta(K)L_\theta(K)^\top \approx K$.
+%
+% \paragraph{MPSSM} \cite{ceniMessagePassingStateSpaceModels2025} we use MPSSM as
+% our backbone for predicting the matrix $L_\theta(K)$. MPSSM is based on the recurrance
+% \begin{equation}
+%     H_{t + 1} = SH_tW + U_{t}B
+% \end{equation}
+%
+% In our case we use a fixed $U_t = U$ that injects the matrix dervied feature, like the
+% $K$'s matrix diagonal.
+%
+% Each MPSSM block is of $s = 8$ steps, followed by an MLP layer and a residual
+% connection, we have a total of $b = 2$ blocks.
+%
+% \paragraph{Learning $L_\theta(K)$} Firstly we pass contruct the shift operator
+% $S = D^{-1/2} A_S D^{-1/2}$ when $A_S$ is the sparsity pattern of $K$,
+% and extract the matrix features $U\in \mathbb{R}^{n \times \mathrm{mat\_features}}$ (see appendix for the exact features),
+% and the MPSSM backbone on the input matrix $H_{t+1} = \texttt{GraphNorm}(H_{t} + \texttt{MPSSM}(H_t,S,U))$,  
+% when $H_1 = \texttt{MPSSM}(0,S,U)$.
+%
+%
+% Now for each $i > j$ such that $K_{ij} \neq 0$ we construct $e_{ij} =
+% \texttt{concat}(H_i,H_j,K_{ij} / s)$ when  $s = \frac{1}{n} \sum_i |K_{ii}|$,
+% and pass it to an MLP that predicts the corresponding entry $L_{ij} = z_{ij} =
+% \texttt{MLP}(e_{ij})$.
+%
+% % Now for each $i > j$ such that $K_{ij} \neq 0$ we construct $e_{ij} =
+% % \texttt{concat}(H_i,H_j,K_{ij} / s)$ when  $s = \frac{1}{n} \sum_i |K_{ii}|$,
+% % and pass it to an MLP that predicts the corresponding entry $z_{ij} =
+% % \texttt{MLP}(e_{ij})$, now we normalize the entry and scale it back $L_{ij} =
+% % \sqrt{s}\ \texttt{tanh}(z_{ij})$.
+%
+% Now in order to gaurantee that the final matrix is invertable, we ensure that
+% the diagonal is positive. so we apply the following transformation (similar in
+% concept to \cite{hausnerNeuralIncompleteFactorization2024}):
+%
+% \begin{equation}
+%     L_{ii} =  e^{cD_{\theta,i}}
+% \end{equation}
+%
+% When $D_\theta = \texttt{MLP}(H)$ is the digonal encoder and $c$ is a small constant.
+%
+%
+%
