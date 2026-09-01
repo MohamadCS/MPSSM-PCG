@@ -15,7 +15,7 @@ where $s = \frac{1}{n} \sum_{i = 1}^n |K_{ii}|$ and $\bar d = \frac{1}{n}\sum_{i
     d_i$ when $d_i$ is the number of nonzero off-diagonal entries in row $i$ and
 $p_i\in [-1,1]$ is the normalzied row position.
 
-Then we use it to constrcut the matrix features matrix $U = [u_1,\dots,
+We combine the feature vectors $\{u_i\}$ to contruct the feature matrix $U = [u_1,\dots,
             u_n]^\top \in \mathbb{R}^{n \times 4}$.
 
 
@@ -76,12 +76,12 @@ We predict the diagonal independly. To guarantee the the diagonal is postive, we
 where $c$ is a constant\footnote{We found that having an indepenent decoder for the
     diagonal is more numerically stable}.
 
-Now since $L_\theta$ is a lower triagonal matrix with strictly postivei
-diagonal we get $M_\theta = L_\theta L^\top_\theta$ is a positive definite
-matrix and hence invertable and can be used for PCG.
+Now since $L_\theta$ is a lower triagonal matrix with strictly positive
+diagonal we get $M_\theta = L_\theta L^\top_\theta$ is a PD matrix and hence
+invertable and can be used for PCG.
 
 \paragraph{Training} Our training method is similar to
-\cite{hausnerNeuralIncompleteFactorization2024}. Instead of directly minimizing
+\cite{liNeuralPreconditioningOperator2025,hausnerNeuralIncompleteFactorization2024}. Instead of directly minimizing
 the objective $\lVert K - L_\theta L^\top_\theta \rVert^2_F$, which can be
 quite expensive as the matrix dimesntions increase, we sample $k$
 random vectors $x_i \sim \mathcal N(0,I)$, construct the matrix $X =

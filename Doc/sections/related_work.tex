@@ -10,15 +10,15 @@ the transformer is not aware of the graph structure. Works like Graphormer
 \cite{yingTransformersReallyPerform2021a} use positional and structural
 embeddings to inject the graph structure. GraphGPS
 \cite{rampasekRecipeGeneralPowerful2023} computes global attention to learn
-depenencies between distant nodes, and local MPNN layer to learn depenencies
-between local nodes.
+depenencies between distant nodes, and uses a local MPNN to learn depenencies
+between nearby nodes.
 
 \paragraph{Implicit GNN}
 \cite{bakerImplicitGraphNeural,bakerMonotoneOperatorTheoryInspired2024}
 IGNN achive long-range propgation by solving the equalibrium equation $X =
     f_\theta(X,A)$, where $A$ is the   adjacency matrix and $X$ are the node
 signals. For instance, the original IGNN model \cite{guImplicitGraphNeural2021}
-finds $X$ such that $X = \sigma(WXA + b)$. They solve it by repeatadly applying
+finds $X$ such that $X = \sigma(WXA + b)$. They solve it by repeatdly applying
 the equation using the same learned weight matrices until convergance, allowing
 information to propagate through long distances without the need for deep
 propagation.
@@ -34,7 +34,7 @@ order to gaurantee symmetry they learn $LL^T$.
 
 \cite{boothNeuralAccelerationIncomplete} contructs a two-layer sparse linear
 neural network whose weights are the entries of the incomplete Cholesky factor
-$L$. The sparisty pattern is fixed in advance. The first layer applies $L^\top$
+$L$ with fixed sparisty pattern. The first layer applies $L^\top$
 while the second applies $L$.
 
 \cite{hausnerNeuralIncompleteFactorization2024} learns a lower-triagonal matrix

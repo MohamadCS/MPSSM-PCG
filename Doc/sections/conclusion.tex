@@ -10,17 +10,17 @@ using fewer layers.
 
 \subsection{Limitations}
 Main limitation arrise from our limited computation budget. First, the
-multilayer long-range propgation in table \ref{tbl:echo_sssp_layers} here
+multilayer long-range propgation in table \ref{tbl:echo_sssp_layers} is
 conducted using a single value of $\alpha$, so evalutaing the relation between
 propogation depth and $\alpha$ more extensively could provide a better image of
 the effect of the learned operator.
 
-Second, we only considered operators of the form $I + \alpha L$. Other
-long-range graph operators like $e^{-tL}, L^\dagger$ could be considered may be
-studied, as they could be more suitable for differnet graph-learning tasks.
+Second, we considered operators of the form $I + \alpha L$ only. Other
+long-range graph operators like $e^{-tL}, L^\dagger$ could also be considered,
+as they could be more suitable for differnet graph-learning tasks.
 
 Finally $\texttt{MPSSM-PCG}$ is specifically designed around graph-structured
-spare systems and was evaluated on systems computed from graph-learning
+sparse systems and was evaluated on systems computed from graph-learning
 datasets. Its effectiveness on more general sparse SPD matrices remains to be
 investigated.
 

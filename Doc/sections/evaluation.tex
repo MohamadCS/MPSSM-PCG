@@ -4,30 +4,30 @@
 
 Our evaluation consists of two parts. First we directly evaluate the model as
 a preconditioner for solving  graph-structured linear equations using
-preconditioned conjugate gradient (PCG). Second, we use the learned
+preconditioned conjugate gradient (PCG (\ref{alg:pcg})). Second, we use the learned
 preconditioning operator as a propagation operator of a shallow GCN and
 evaluate whether it improves long-range propagation on long-range graph
 learning tasks.
 
 For a graph $\mathcal G$ we construct the system $K = I + \alpha L$, where $L =
-    I - D^{-1/2}AD^{-1/2}$ is the normalized laplacian, and $\alpha > 0$ controls
-the effective propagation range.
+    I - D^{-1/2}AD^{-1/2}$ is the normalized laplacian, and $\alpha > 0$ (see \ref{sec:operator_interpretation}) controls
+the effective propagation range .
 
 \paragraph{Preconditioning Training}
 Both \texttt{MPSSM-PCG} and \texttt{NeuralIF} are trained under the same
 protocol. We train the models using the objective in Eq.\ref{eq:training_loss}
 with 10 Gaussian probes per matrix and evaluate the best validation checkpoint
-on the test split. At test time, each unseen system five is solved 5 times
-using indepenedly generated RHS. We terminate PCG (\ref{alg:pcg}) when $\lVert
-    r_k\rVert_2 / \lVert b\rVert_2  < \texttt{tol} = 10^{-6}$ or after 1000
+on the test split. At test time, each unseen system is solved 5 times
+using indepenedly generated RHS. We terminate PCG when $\lVert
+    r\rVert_2 / \lVert b\rVert_2  < \texttt{tol} = 10^{-6}$ or after 1000
 iterations. Refer to the appendix for per expirement hyperparameters.
 
 \paragraph{Long-range Propagation}
 
-After training \texttt{MPSSM-PCG} on the dataset. We freeze the model the \texttt{MPSSM-PCG} parameters. And
+After training \texttt{MPSSM-PCG} on a dataset. We freeze \texttt{MPSSM-PCG}'s parameters. Then, we
 train two identical conventional GCN models, that only differ in the
 propagation matrix. One time we train with $\hat A$, and the other with
-$P_\theta$. For ECHO-SSSP, both models are trained using MSE (Eq.\ref{eq:mse})
+$P_\theta$. For ECHO-SSSP \cite{migliorCanYouHear2026}, both models are trained using MSE (Eq.\ref{eq:mse})
 and selected according to valdiation MAE (Eq.\ref{eq:mae}) at best validation
 checkpoint. Refer to the appendix for per expirement hyperparameters.
 
@@ -55,12 +55,12 @@ solution-error statisctics are provided in the appendix.
     \small
     \label{tbl:echo_sssp_preconditioning_time}
     \begin{tabular}{c c c c c c}
-        Method    & Conv. \%   $\uparrow$ & PCG Iteration $\downarrow$ & Setup Time \ref{par:setup_time} $\downarrow$ & Solve Time $\downarrow$ \ref{par:solve_time} & Total Time \ref{par:total_time}  $\downarrow$ \\
+        Method    & Conv. \%   $\uparrow$ & PCG Iteration $\downarrow$ & Setup Time $\downarrow$  & Solve Time $\downarrow$ & Total Time $\downarrow$ \\
         \hline
-        Identity  & $100\% \pm 0.0$       & $21.86\pm 0.00$            & $\mathbf{0.001}\pm0.000$                     & $2.225\pm0.011$                              & $2.225\pm0.011$                               \\
-        Jacobi    & $100\% \pm 0.0$       & $21.50\pm 0.00$            & $0.008\pm0.001$                              & $2.240\pm0.010$                              & $2.249\pm0.010$                               \\
-        NeuralIF  & $100\% \pm 0.0$       & $\mathbf{8.73} \pm 0.02$   & $0.722\pm0.001$                              & $\mathbf{1.587}\pm0.007$                     & $2.309\pm0.005$                               \\
-        MPSSM-PCG & $100\% \pm 0.0$       & $8.93 \pm 0.03$            & $0.274\pm0.007$                              & $1.636\pm0.004$                              & $\mathbf{1.910}\pm0.004$                      \\
+        Identity  & $100\% \pm 0.0$       & $21.86\pm 0.00$            & $\mathbf{0.001}\pm0.000$ & $2.225\pm0.011$          & $2.225\pm0.011$          \\
+        Jacobi    & $100\% \pm 0.0$       & $21.50\pm 0.00$            & $0.008\pm0.001$          & $2.240\pm0.010$          & $2.249\pm0.010$          \\
+        NeuralIF  & $100\% \pm 0.0$       & $\mathbf{8.73} \pm 0.02$   & $0.722\pm0.001$          & $\mathbf{1.587}\pm0.007$ & $2.309\pm0.005$          \\
+        MPSSM-PCG & $100\% \pm 0.0$       & $8.93 \pm 0.03$            & $0.274\pm0.007$          & $1.636\pm0.004$          & $\mathbf{1.910}\pm0.004$ \\
     \end{tabular}
 \end{table}
 
@@ -68,8 +68,8 @@ The results show that both \texttt{NeuralIF} and \texttt{MPSSM-PCG}
 substantially reduce the number of PCG iterations compared with classical
 precondtioners in PCG iteration count. \texttt{NeuralIF} acheives slighty lower
 iteration count than \texttt{MPSSM-PCG} . However \texttt{MPSSM-PCG} has approximately
-$62\%$ lower setup time than \texttt{NeuralIF}, resulting in
-approximatly $17\%$ reduction in the total time. We see very similar results
+$62\%$ lower setup time (\ref{par:setup_time}) than \texttt{NeuralIF}, resulting in
+approximatly $17\%$ reduction in the total time (\ref{par:total_time}). We see very similar results
 using Peptides graphs \cite{dwivediLongRangeGraph2023} (See table
 \ref{tbl:peptides_struct_preconditioning_time} in appendix).
 
@@ -97,8 +97,8 @@ propagation operator in a shallow graph neural network.
     \end{tabular}
 \end{table}
 
-In table (\ref{tbl:echo_sssp_alphas}) we perform simple abiliation to evalute
-the effect of the propagation parameter $\alpha$. As established by \ref{sec:operator_interpretation}, increasing
+In table (\ref{tbl:echo_sssp_alphas}) we perform simple abliation to evalute
+the effect of the propagation parameter $\alpha$. As established by (\ref{sec:operator_interpretation}), increasing
 $\alpha$ increases the effective propgation range of $(I + \alpha L)^{-1}$. Therefore we expect that larger values of $\alpha$ to
 be benificial on long-range benchmarks like ECHO-SSSP
 \cite{migliorCanYouHear2026}. The results shown in \ref{tbl:echo_sssp_alphas}

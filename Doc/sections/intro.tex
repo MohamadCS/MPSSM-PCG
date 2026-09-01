@@ -4,13 +4,13 @@ powerful tool for learning on graphs. They differ from standard MLP in that
 they mix node representations according to the graph structure, which makes
 them vaiable for graph based application.
 
-In particual, message-passing neural networks (MPNN)
+In particular, message-passing neural networks (MPNN)
 \cite{gilmerNeuralMessagePassing2017} have recived substantial attention over the
 last decade. MPNN layer updates node representations by aggregating
 information from neighbor nodes followed by a feature update (such as MLP).
 
 While MPNN are effective for propagating local graph information, global
-information propagation remains challening. For information to travel between
+information propagation remain challenging. For information to travel between
 nodes that are $k$-hops apart, a local MPNN generally requires at least $k$ propagation layers.
 However, repeated propagation arrises two main challenges in GNN:
 oversmoothing and oversquashing
@@ -82,7 +82,7 @@ directly we learn an easily invertable approximation $M_\theta(K) \approx K$
 and define $P_\theta(K) = M_\theta(K)^{-1}\approx K^{-1}$.
 
 We use the parametrization $M_\theta = L_\theta L_\theta^\top$ where $L_\theta$
-follows the IC(0) sparsity pattern.
+follows the IC(0) sparsity pattern (Eq.\ref{eq:sparsity_pattern}).
 
 \paragraph{Shallow Long-Range MPNN} Given a graph $\mathcal G = (\mathcal
     V,\mathcal E)$, denote its adjacency matrix by $A$, where $A_{ij} = A_{ji} =
